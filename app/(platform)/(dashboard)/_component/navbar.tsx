@@ -1,11 +1,11 @@
-import Logo from "@/app/(marketing)/_components/logo";
-import { Button } from "@/components/ui";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 
-import { MobileSidebar } from ".";
+import Logo from "@/app/(marketing)/_components/logo";
+import { Button, ModeToggle } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { theme } from "@/theme";
+import { MobileSidebar } from ".";
 
 const Navbar = () => {
     return (
@@ -28,7 +28,7 @@ const Navbar = () => {
                     Create
                 </Button>
                 <Button size="sm" className="rounded-sm block md:hidden">
-                    <Plus className="h-4 w-4" />
+                    <Plus className={theme.size.icon} />
                 </Button>
             </div>
             <div className={`ml-auto ${theme.flexGap}`}>
@@ -50,6 +50,7 @@ const Navbar = () => {
                         },
                     }}
                 />
+                <ModeToggle size="sm" />
                 <UserButton
                     afterSignOutUrl="/"
                     appearance={{

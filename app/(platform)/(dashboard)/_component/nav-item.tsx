@@ -75,7 +75,7 @@ const NavItem = ({
                 className={cn(
                     theme.flexGap,
                     theme.textColor,
-                    "p-1.5 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
+                    "p-1.5 rounded-md hover:bg-neutral-400/10 transition text-start no-underline hover:no-underline",
                     isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
                 )}
             >
@@ -101,7 +101,7 @@ const NavItem = ({
                             theme.background.none,
                             theme.textColor,
                             "w-full font-normal justify-start pl-10 mb-1",
-                            "dark:hover:bg-neutral-500/10",
+                            "hover:bg-neutral-400/10",
                             pathname === href && "bg-sky-500/10 text-sky-700"
                         )}
                     >
