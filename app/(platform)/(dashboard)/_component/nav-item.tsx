@@ -12,6 +12,7 @@ import {
     Skeleton,
 } from "@/components/ui";
 import { cn } from "@/lib/utils";
+import { theme } from "@/theme";
 
 export type Organization = {
     id: string;
@@ -72,12 +73,13 @@ const NavItem = ({
             <AccordionTrigger
                 onClick={() => onExpand(id)}
                 className={cn(
-                    "flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
-                    "dark:text-neutral-300",
+                    theme.flexGap,
+                    theme.textColor,
+                    "p-1.5 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline",
                     isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
                 )}
             >
-                <div className="flex items-center gap-x-2">
+                <div className={theme.flexGap}>
                     <div className="w-7 h-7 relative">
                         <Image
                             fill
@@ -89,15 +91,17 @@ const NavItem = ({
                     <span className="font-medium text-sm">{name}</span>
                 </div>
             </AccordionTrigger>
-            <AccordionContent className="pt-1 text-neutral-700">
+            <AccordionContent className="pt-1">
                 {routes.map(({ href, icon, label }) => (
                     <Button
                         key={href}
                         size="sm"
                         onClick={() => onClick(href)}
                         className={cn(
+                            theme.background.none,
+                            theme.textColor,
                             "w-full font-normal justify-start pl-10 mb-1",
-                            "bg-background dark:bg-none dark:text-neutral-300 dark:hover:bg-neutral-500/10",
+                            "dark:hover:bg-neutral-500/10",
                             pathname === href && "bg-sky-500/10 text-sky-700"
                         )}
                     >
@@ -112,7 +116,7 @@ const NavItem = ({
 
 NavItem.Skleton = function SkeletonNavItem() {
     return (
-        <div className="flex items-center gap-x-2">
+        <div className={theme.flexGap}>
             <div className="w-10 h-10 relative shrink-0">
                 <Skeleton className="h-full w-full absolute" />
             </div>

@@ -1,11 +1,12 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { Menu } from "lucide-react";
+
 import { Button, Sheet, SheetContent } from "@/components/ui";
 import { useMobileSidebar } from "@/hooks";
-import { Menu } from "lucide-react";
 import { Sidebar } from ".";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const MobileSidebar = () => {
     const pathname = usePathname();

@@ -1,7 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui";
 import { ArrowRight } from "lucide-react";
+
+import { Button } from "@/components/ui";
+import { theme } from "@/theme";
 
 const Heading = () => {
     return (
@@ -15,7 +17,7 @@ const Heading = () => {
                 better, faster work happens.
             </h3>
             <Button>
-                Get Started <ArrowRight className="h-4 w-4 ml-2" />
+                Get Started <ArrowRight className={`${theme.size.icon} ml-2`} />
             </Button>
         </div>
     );

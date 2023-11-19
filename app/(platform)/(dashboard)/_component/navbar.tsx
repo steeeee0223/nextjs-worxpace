@@ -2,13 +2,22 @@ import Logo from "@/app/(marketing)/_components/logo";
 import { Button } from "@/components/ui";
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
+
 import { MobileSidebar } from ".";
+import { cn } from "@/lib/utils";
+import { theme } from "@/theme";
 
 const Navbar = () => {
     return (
-        <nav className="fixed z-50 top-0 px-4 w-full h-14 border-b shadow-sm bg-background dark:bg-[#1F1F1F] flex items-center">
+        <nav
+            className={cn(
+                theme.background.navbar,
+                theme.flexCenter,
+                "fixed z-50 top-0 px-4 w-full h-14 border-b shadow-sm"
+            )}
+        >
             <MobileSidebar />
-            <div className="flex items-center gap-x-4">
+            <div className={`${theme.flexCenter} gap-x-4`}>
                 <div className="hidden md:flex">
                     <Logo />
                 </div>
@@ -22,7 +31,7 @@ const Navbar = () => {
                     <Plus className="h-4 w-4" />
                 </Button>
             </div>
-            <div className="ml-auto flex items-center gap-x-2">
+            <div className={`ml-auto ${theme.flexGap}`}>
                 <OrganizationSwitcher
                     // hidePersonal
                     afterSelectPersonalUrl="/personal/:id"
