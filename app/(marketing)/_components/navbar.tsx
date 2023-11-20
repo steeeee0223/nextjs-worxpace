@@ -14,7 +14,7 @@ export default function Navbar() {
         <div
             className={cn(
                 theme.background.navbar,
-                theme.flexCenter,
+                theme.flex.center,
                 "z-50 fixed top-0 w-full p-6",
                 scrolled && "border-b shadow-sm"
             )}
@@ -22,7 +22,7 @@ export default function Navbar() {
             <Logo />
             <div
                 className={cn(
-                    theme.flexGap,
+                    theme.flex.gap2,
                     "md:ml-auto md:justify-end justify-between w-full"
                 )}
             >

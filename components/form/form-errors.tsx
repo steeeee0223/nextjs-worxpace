@@ -20,7 +20,7 @@ export const FormErrors = ({ id, errors }: FormErrorProps) => {
                 <div
                     key={error}
                     className={cn(
-                        theme.flexCenter,
+                        theme.flex.center,
                         "font-medium p-2 border border-rose-500 bg-rose-500/10 rounded-sm"
                     )}
                 >

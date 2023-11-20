@@ -73,13 +73,13 @@ const NavItem = ({
             <AccordionTrigger
                 onClick={() => onExpand(id)}
                 className={cn(
-                    theme.flexGap,
+                    theme.flex.gap2,
                     theme.textColor,
                     "p-1.5 rounded-md hover:bg-neutral-400/10 transition text-start no-underline hover:no-underline",
                     isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
                 )}
             >
-                <div className={theme.flexGap}>
+                <div className={theme.flex.gap2}>
                     <div className="w-7 h-7 relative">
                         <Image
                             fill
@@ -116,9 +116,9 @@ const NavItem = ({
 
 NavItem.Skleton = function SkeletonNavItem() {
     return (
-        <div className={theme.flexGap}>
+        <div className={theme.flex.gap2}>
             <div className="w-10 h-10 relative shrink-0">
-                <Skeleton className="h-full w-full absolute" />
+                <Skeleton className={`${theme.size.full} absolute`} />
             </div>
             <Skeleton className="h-10 w-full" />
         </div>

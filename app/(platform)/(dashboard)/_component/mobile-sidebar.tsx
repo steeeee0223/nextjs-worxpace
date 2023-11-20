@@ -6,6 +6,7 @@ import { Menu } from "lucide-react";
 
 import { Button, Sheet, SheetContent } from "@/components/ui";
 import { useMobileSidebar } from "@/hooks";
+import { theme } from "@/theme";
 import { Sidebar } from ".";
 
 const MobileSidebar = () => {
@@ -29,7 +30,7 @@ const MobileSidebar = () => {
                 size="sm"
                 className="block md:hidden mr-2"
             >
-                <Menu className="h-4 w-4" />
+                <Menu className={theme.size.icon} />
             </Button>
             <Sheet open={isOpen} onOpenChange={onClose}>
                 <SheetContent side="left" className="p-2 pt-10">

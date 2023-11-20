@@ -7,7 +7,7 @@ export default function Footer() {
     return (
         <div
             className={cn(
-                theme.flexCenter,
+                theme.flex.center,
                 theme.background.navbar,
                 "w-full p-6 z-50"
             )}
@@ -15,7 +15,7 @@ export default function Footer() {
             <Logo />
             <div
                 className={cn(
-                    theme.flexGap,
+                    theme.flex.gap2,
                     "md:ml-auto w-full justify-between md:justify-end text-muted-foreground"
                 )}
             >

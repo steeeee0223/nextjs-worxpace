@@ -7,11 +7,11 @@ export default function Heroes() {
     return (
         <div
             className={cn(
-                theme.flexCenter,
+                theme.flex.center,
                 "flex-col justify-center max-w-5xl"
             )}
         >
-            <div className={theme.flexCenter}>
+            <div className={theme.flex.center}>
                 <div className="relative w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] md:w-[400px] md:h-[400px] ">
                     <Image
                         src="/documents.png"

@@ -6,8 +6,8 @@ import { Plus } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
 
 import { Accordion, Button, Skeleton } from "@/components/ui";
-import { NavItem, Organization } from ".";
 import { theme } from "@/theme";
+import { NavItem, Organization } from ".";
 
 interface SidebarProps {
     storageKey?: string;
@@ -38,7 +38,7 @@ const Sidebar = ({ storageKey = "x-sidebar-state" }: SidebarProps) => {
     if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
         return (
             <>
-                <div className={`${theme.flexCenter} justify-between mb-2`}>
+                <div className={`${theme.flex.center} justify-between mb-2`}>
                     <Skeleton className="h-10 w-[50%]" />
                     <Skeleton className="h-10 w-10" />
                 </div>
@@ -53,7 +53,7 @@ const Sidebar = ({ storageKey = "x-sidebar-state" }: SidebarProps) => {
 
     return (
         <>
-            <div className={`${theme.flexCenter} font-medium text-xs mb-1`}>
+            <div className={`${theme.flex.center} font-medium text-xs mb-1`}>
                 <span className="pl-4">Workspaces</span>
                 <Button
                     asChild

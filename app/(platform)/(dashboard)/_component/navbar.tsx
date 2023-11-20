@@ -12,12 +12,12 @@ const Navbar = () => {
         <nav
             className={cn(
                 theme.background.navbar,
-                theme.flexCenter,
+                theme.flex.center,
                 "fixed z-50 top-0 px-4 w-full h-14 border-b shadow-sm"
             )}
         >
             <MobileSidebar />
-            <div className={`${theme.flexCenter} gap-x-4`}>
+            <div className={theme.flex.gap4}>
                 <div className="hidden md:flex">
                     <Logo />
                 </div>
@@ -31,7 +31,7 @@ const Navbar = () => {
                     <Plus className={theme.size.icon} />
                 </Button>
             </div>
-            <div className={`ml-auto ${theme.flexGap}`}>
+            <div className={`ml-auto ${theme.flex.gap2}`}>
                 <OrganizationSwitcher
                     // hidePersonal
                     afterSelectPersonalUrl="/personal/:id"
