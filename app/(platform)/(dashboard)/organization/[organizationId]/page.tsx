@@ -1,6 +1,6 @@
 "use client";
 
-import { Separator } from "@radix-ui/react-dropdown-menu";
+import { Separator } from "@/components/ui";
 import { BoardList, Info } from "./_components";
 
 type Params = { params: { organizationId: string } };

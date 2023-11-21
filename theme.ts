@@ -12,6 +12,6 @@ export const theme = {
     flex: {
         center: "flex items-center",
         gap2: "flex items-center gap-x-2",
-        gap4: "flex items-center gap-x-4",
+        gap4: "flex items-center gap-4",
     },
 };

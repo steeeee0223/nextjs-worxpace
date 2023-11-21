@@ -6,6 +6,7 @@ import { Button, ModeToggle } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { theme } from "@/theme";
 import { MobileSidebar } from ".";
+import { FormPopover } from "@/components/form";
 
 const Navbar = () => {
     return (
@@ -21,15 +22,19 @@ const Navbar = () => {
                 <div className="hidden md:flex">
                     <Logo />
                 </div>
-                <Button
-                    size="sm"
-                    className="rounded-sm hidden md:block h-auto py-1.5 px-2"
-                >
-                    Create
-                </Button>
-                <Button size="sm" className="rounded-sm block md:hidden">
-                    <Plus className={theme.size.icon} />
-                </Button>
+                <FormPopover align="start" side="bottom" sideOffset={18}>
+                    <Button
+                        size="sm"
+                        className="rounded-sm hidden md:block h-auto py-1.5 px-2"
+                    >
+                        Create
+                    </Button>
+                </FormPopover>
+                <FormPopover>
+                    <Button size="sm" className="rounded-sm block md:hidden">
+                        <Plus className={theme.size.icon} />
+                    </Button>
+                </FormPopover>
             </div>
             <div className={`ml-auto ${theme.flex.gap2}`}>
                 <OrganizationSwitcher

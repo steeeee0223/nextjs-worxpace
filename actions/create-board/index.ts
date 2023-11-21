@@ -9,14 +9,22 @@ import { db } from "@/lib/db";
 import { CreateBoard, type CreateBoardInput } from "./schema";
 
 const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
-    const { userId } = auth();
-    if (!userId) return { error: "Unauthorized" };
+    const { userId, orgId } = auth();
+    if (!userId || !orgId) return { error: "Unauthorized" };
 
-    const { title } = data;
+    const { title, image: imageString } = data;
+
     let board;
+    let image;
     try {
-        board = await db.board.create({ data: { title } });
+        if (imageString) {
+            const [imageId, thumbUrl, fullUrl, username, linkHTML] =
+                imageString.split("|");
+            image = { imageId, thumbUrl, fullUrl, username, linkHTML };
+        }
+        board = await db.board.create({ data: { orgId, title, image } });
     } catch (error) {
+        console.log(`ERROR`, error);
         return { error: "Failed to create board." };
     }
 
@@ -25,3 +33,4 @@ const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
 };
 
 export const createBoard = createSafeAction(CreateBoard, handler);
+export { CreateBoard, CreateBoardInput };

@@ -7,3 +7,4 @@
     -   `pnpm dlx prisma generate`
     -   `pnpm dlx prisma db push`
     -   Monitor: `pnpm dlx prisma studio`
+    -   Reset entire db: `pnpm dlx prisma migrate reset`
