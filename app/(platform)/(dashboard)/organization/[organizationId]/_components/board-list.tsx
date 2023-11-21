@@ -5,7 +5,7 @@ import { fetchBoards } from "@/lib/fetch";
 import { Hint, Skeleton } from "@/components/ui";
 import { FormPopover } from "@/components/form";
 import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
+import { theme } from "@/constants/theme";
 
 interface BoardListProps {
     orgId: string;
@@ -19,7 +19,7 @@ const BoardList = async ({ orgId }: BoardListProps) => {
             <div
                 className={cn(
                     theme.flex.center,
-                    theme.textColor,
+                    theme.text.neutral,
                     "font-semibold text-lg"
                 )}
             >

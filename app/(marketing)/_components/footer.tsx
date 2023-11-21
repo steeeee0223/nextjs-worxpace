@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui";
+import { theme } from "@/constants/theme";
 import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
 import Logo from "./logo";
 
 export default function Footer() {

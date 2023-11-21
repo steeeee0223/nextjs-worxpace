@@ -8,7 +8,9 @@ export const theme = {
         full: "w-full h-full",
         icon: "w-4 h-4",
     },
-    textColor: "text-neutral-700 dark:text-neutral-300",
+    text: {
+        neutral: "text-neutral-700 dark:text-neutral-300",
+    },
     flex: {
         center: "flex items-center",
         gap2: "flex items-center gap-x-2",

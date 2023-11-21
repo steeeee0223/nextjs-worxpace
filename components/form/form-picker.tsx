@@ -7,10 +7,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { defaultImages } from "@/constants/images";
+import { theme } from "@/constants/theme";
 import { useFetch } from "@/hooks";
 import { UnsplashImage, fetchImages } from "@/lib/unsplash";
 import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
 import { FormErrors } from "./form-errors";
 
 export interface FormPickerProps {

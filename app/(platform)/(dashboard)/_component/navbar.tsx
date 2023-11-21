@@ -3,10 +3,10 @@ import { Plus } from "lucide-react";
 
 import Logo from "@/app/(marketing)/_components/logo";
 import { Button, ModeToggle } from "@/components/ui";
-import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
-import { MobileSidebar } from ".";
 import { FormPopover } from "@/components/form";
+import { theme } from "@/constants/theme";
+import { cn } from "@/lib/utils";
+import { MobileSidebar } from ".";
 
 const Navbar = () => {
     return (
@@ -36,7 +36,7 @@ const Navbar = () => {
                     </Button>
                 </FormPopover>
             </div>
-            <div className={`ml-auto ${theme.flex.gap2}`}>
+            <div className={cn(theme.flex.gap2, "ml-auto")}>
                 <OrganizationSwitcher
                     // hidePersonal
                     afterSelectPersonalUrl="/personal/:id"

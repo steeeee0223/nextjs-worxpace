@@ -4,8 +4,8 @@ import { forwardRef } from "react";
 import { useFormStatus } from "react-dom";
 
 import { Input, InputProps, Label } from "@/components/ui";
+import { theme } from "@/constants/theme";
 import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
 import { FormErrors } from "./form-errors";
 
 export interface FormInputProps {
@@ -57,7 +57,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                         <Label
                             htmlFor={id}
                             className={cn(
-                                theme.textColor,
+                                theme.text.neutral,
                                 "text-xs font-semibold"
                             )}
                         >

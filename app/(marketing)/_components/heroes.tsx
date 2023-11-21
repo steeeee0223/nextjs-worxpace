@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
+import { theme } from "@/constants/theme";
 
 export default function Heroes() {
     return (

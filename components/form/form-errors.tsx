@@ -1,7 +1,7 @@
 import { XCircle } from "lucide-react";
 
+import { theme } from "@/constants/theme";
 import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
 
 export interface FormErrorProps {
     id: string;

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useOrganization } from "@clerk/nextjs";
 import { CreditCard } from "lucide-react";
 
-import { theme } from "@/theme";
+import { theme } from "@/constants/theme";
 import { Skeleton } from "@/components/ui";
 
 const Info = () => {

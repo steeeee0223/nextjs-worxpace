@@ -13,8 +13,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui";
+import { theme } from "@/constants/theme";
 import { useAction } from "@/hooks";
-import { theme } from "@/theme";
 import { cn } from "@/lib/utils";
 import { FormInput } from "./form-input";
 import { FormSubmit } from "./form-submit";
@@ -65,7 +65,7 @@ export const FormPopover = ({
             >
                 <div
                     className={cn(
-                        theme.textColor,
+                        theme.text.neutral,
                         "text-sm font-medium text-center pb-4"
                     )}
                 >

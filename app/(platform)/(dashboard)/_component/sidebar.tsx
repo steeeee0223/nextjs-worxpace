@@ -6,7 +6,7 @@ import { Plus } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
 
 import { Accordion, Button, Skeleton } from "@/components/ui";
-import { theme } from "@/theme";
+import { theme } from "@/constants/theme";
 import { NavItem, Organization } from ".";
 
 interface SidebarProps {

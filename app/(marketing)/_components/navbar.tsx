@@ -3,7 +3,7 @@
 import { useScrollTop } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { ModeToggle } from "@/components/ui";
-import { theme } from "@/theme";
+import { theme } from "@/constants/theme";
 
 import Logo from "./logo";
 

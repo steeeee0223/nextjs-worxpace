@@ -11,8 +11,8 @@ import {
     Button,
     Skeleton,
 } from "@/components/ui";
+import { theme } from "@/constants/theme";
 import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
 
 export type Organization = {
     id: string;
@@ -29,7 +29,7 @@ interface NavItemProps {
 }
 
 const getRoutes = (id: string) => {
-    const iconStyle = "h-4 w-4 mr-2";
+    const iconStyle = cn(theme.size.icon, "mr-2");
     return [
         {
             label: "Boards",
@@ -74,7 +74,7 @@ const NavItem = ({
                 onClick={() => onExpand(id)}
                 className={cn(
                     theme.flex.gap2,
-                    theme.textColor,
+                    theme.text.neutral,
                     "p-1.5 rounded-md hover:bg-neutral-400/10 transition text-start no-underline hover:no-underline",
                     isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
                 )}
@@ -99,7 +99,7 @@ const NavItem = ({
                         onClick={() => onClick(href)}
                         className={cn(
                             theme.background.none,
-                            theme.textColor,
+                            theme.text.neutral,
                             "w-full font-normal justify-start pl-10 mb-1",
                             "hover:bg-neutral-400/10",
                             pathname === href && "bg-sky-500/10 text-sky-700"

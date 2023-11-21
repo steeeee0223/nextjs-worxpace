@@ -3,7 +3,7 @@
 import { ArrowRight } from "lucide-react";
 
 import { Button } from "@/components/ui";
-import { theme } from "@/theme";
+import { theme } from "@/constants/theme";
 
 const Heading = () => {
     return (
