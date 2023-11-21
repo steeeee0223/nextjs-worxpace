@@ -1,6 +1,7 @@
 "use client";
 
 import { ReactNode, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { X } from "lucide-react";
 import { toast } from "sonner";
 
@@ -15,8 +16,9 @@ import {
 import { useAction } from "@/hooks";
 import { theme } from "@/theme";
 import { cn } from "@/lib/utils";
-import { FormInput, FormPicker, FormSubmit } from ".";
-import { useRouter } from "next/navigation";
+import { FormInput } from "./form-input";
+import { FormSubmit } from "./form-submit";
+import { FormPicker } from "./form-picker";
 
 interface FormPopoverProps {
     children: ReactNode;

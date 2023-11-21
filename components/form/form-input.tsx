@@ -6,7 +6,7 @@ import { useFormStatus } from "react-dom";
 import { Input, InputProps, Label } from "@/components/ui";
 import { cn } from "@/lib/utils";
 import { theme } from "@/theme";
-import { FormErrors } from ".";
+import { FormErrors } from "./form-errors";
 
 export interface FormInputProps {
     id: string;

@@ -1,11 +1,19 @@
+import Link from "next/link";
 import { HelpCircle, User2 } from "lucide-react";
 
-import { cn } from "@/lib/utils";
-import { theme } from "@/theme";
+import { fetchBoards } from "@/lib/fetch";
 import { Hint, Skeleton } from "@/components/ui";
 import { FormPopover } from "@/components/form";
+import { cn } from "@/lib/utils";
+import { theme } from "@/theme";
 
-const BoardList = () => {
+interface BoardListProps {
+    orgId: string;
+}
+
+const BoardList = async ({ orgId }: BoardListProps) => {
+    const boards = await fetchBoards(orgId);
+
     return (
         <div className="space-y-4">
             <div
@@ -19,6 +27,28 @@ const BoardList = () => {
                 Your Boards
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                {boards.map(({ id, title, image }) => (
+                    <Link
+                        key={id}
+                        href={`/board/${id}`}
+                        className={cn(
+                            theme.size.full,
+                            "group relative aspect-video",
+                            "bg-no-repeat bg-center bg-cover bg-sky-700",
+                            "rounded-sm p-2 overflow-hidden"
+                        )}
+                        {...(image && {
+                            style: {
+                                backgroundImage: `url(${image.thumbUrl})`,
+                            },
+                        })}
+                    >
+                        <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
+                        <p className="relative font-semibold text-white">
+                            {title}
+                        </p>
+                    </Link>
+                ))}
                 <FormPopover side="right" sideOffset={10}>
                     <div
                         role="button"

@@ -11,7 +11,7 @@ import { useFetch } from "@/hooks";
 import { UnsplashImage, fetchImages } from "@/lib/unsplash";
 import { cn } from "@/lib/utils";
 import { theme } from "@/theme";
-import { FormErrors } from ".";
+import { FormErrors } from "./form-errors";
 
 export interface FormPickerProps {
     id: string;
