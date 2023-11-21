@@ -25,9 +25,7 @@ export default function Logo() {
                 width="40"
                 alt="Logo"
             />
-            <p className={cn("font-semibold", font.className)}>
-                Steeeee Notion
-            </p>
+            <p className={cn("font-semibold", font.className)}>WorXpace</p>
         </div>
     );
 }

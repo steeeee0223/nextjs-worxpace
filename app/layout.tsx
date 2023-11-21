@@ -7,7 +7,7 @@ import { ThemeProvider } from "@/components/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-    title: "Steeeee Notion",
+    title: "WorXpace",
     description: "The connected workspace where better, faster work happens",
     icons: {
         icon: [
