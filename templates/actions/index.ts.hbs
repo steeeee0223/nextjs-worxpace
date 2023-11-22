@@ -1,0 +1,18 @@
+"use server"
+
+import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
+import { {{pascalCase name}}, type {{pascalCase name}}Input } from "./schema"
+
+const handler: ActionHandler<{{pascalCase name}}Input, any> = async (data) => {
+    try {
+
+    } catch (error) {
+        console.log(`ERROR`, error);
+        return { error: "Failed." };
+    }
+
+    return { data: {} };
+};
+
+export const {{camelCase name}} = createSafeAction({{pascalCase name}}, handler);
+

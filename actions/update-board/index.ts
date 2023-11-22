@@ -30,4 +30,3 @@ const handler: ActionHandler<UpdateBoardInput, Board> = async (data) => {
 };
 
 export const updateBoard = createSafeAction(UpdateBoard, handler);
-export type { UpdateBoard, UpdateBoardInput };

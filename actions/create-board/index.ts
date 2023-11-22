@@ -33,4 +33,3 @@ const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
 };
 
 export const createBoard = createSafeAction(CreateBoard, handler);
-export { CreateBoard, CreateBoardInput };

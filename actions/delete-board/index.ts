@@ -28,4 +28,3 @@ const handler: ActionHandler<DeleteBoardInput, Board> = async (data) => {
 };
 
 export const deleteBoard = createSafeAction(DeleteBoard, handler);
-export type { DeleteBoard, DeleteBoardInput };
