@@ -13,6 +13,7 @@ export const theme = {
     },
     flex: {
         center: "flex items-center",
+        gap1: "flex items-center gap-x-1",
         gap2: "flex items-center gap-x-2",
         gap4: "flex items-center gap-4",
     },
