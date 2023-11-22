@@ -1,9 +1,14 @@
 "use server"
 
+import { auth } from "@clerk/nextjs";
+
 import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
 import { {{pascalCase name}}, type {{pascalCase name}}Input } from "./schema"
 
 const handler: ActionHandler<{{pascalCase name}}Input, any> = async (data) => {
+    const { userId, orgId } = auth();
+    if (!userId || !orgId) return { error: "Unauthorized" };
+
     try {
 
     } catch (error) {
