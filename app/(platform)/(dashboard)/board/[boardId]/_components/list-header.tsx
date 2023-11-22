@@ -10,6 +10,7 @@ import { updateList } from "@/actions";
 import { FormInput } from "@/components/form";
 import { cn } from "@/lib/utils";
 import { theme } from "@/constants/theme";
+import { ListOptions } from "./list-options";
 
 interface ListHeaderProps {
     data: List;
@@ -88,6 +89,7 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
                     {title}
                 </div>
             )}
+            <ListOptions onAddCard={() => {}} data={data} />
         </div>
     );
 };

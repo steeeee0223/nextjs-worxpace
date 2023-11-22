@@ -27,6 +27,16 @@ export const fetchLists = async (
         orderBy: { order: "asc" },
     });
 
+export const fetchListById = async (
+    orgId: string,
+    boardId: string,
+    id: string
+): Promise<ListWithCards | null> =>
+    await db.list.findUnique({
+        where: { id, boardId, board: { orgId } },
+        include: { cards: true },
+    });
+
 export const fetchLastList = async (
     boardId: string
 ): Promise<Pick<List, "order"> | null> =>
