@@ -8,7 +8,7 @@ const handler: ActionHandler<{{pascalCase name}}Input, any> = async (data) => {
 
     } catch (error) {
         console.log(`ERROR`, error);
-        return { error: "Failed." };
+        return { error: "Failed to {{lowerCase name}}." };
     }
 
     return { data: {} };
