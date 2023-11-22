@@ -17,4 +17,5 @@ export const theme = {
         gap2: "flex items-center gap-x-2",
         gap4: "flex items-center gap-4",
     },
+    inputBorder: "border-transparent hover:border-input focus:border-input",
 };

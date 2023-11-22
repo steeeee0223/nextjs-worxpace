@@ -63,7 +63,10 @@ export const ListForm = () => {
                     ref={inputRef}
                     // errors={fieldErrors}
                     id="title"
-                    className="text-sm px-2 py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition"
+                    className={cn(
+                        theme.inputBorder,
+                        "text-sm px-2 py-1 h-7 font-medium transition"
+                    )}
                     placeholder="Enter list title..."
                 />
                 <input hidden value={params.boardId} readOnly name="boardId" />
@@ -81,7 +84,7 @@ export const ListForm = () => {
                 onClick={enableEditing}
                 className={cn(
                     theme.flex.center,
-                    theme.text.neutral,
+                    "text-neutral-700",
                     "w-full rounded-md bg-white/80 hover:bg-white/50 transition p-3 font-medium text-sm"
                 )}
             >

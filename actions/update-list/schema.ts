@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const CreateList = z.object({
+export const UpdateList = z.object({
     title: z
         .string({
             required_error: "Title is required",
@@ -9,7 +9,8 @@ export const CreateList = z.object({
         .min(1, {
             message: "Title is required",
         }),
+    id: z.string(),
     boardId: z.string(),
 });
 
-export type CreateListInput = z.infer<typeof CreateList>;
+export type UpdateListInput = z.infer<typeof UpdateList>;

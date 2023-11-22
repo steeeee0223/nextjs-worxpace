@@ -5,3 +5,4 @@ export * from "./update-board";
 
 /** Lists */
 export * from "./create-list";
+export * from "./update-list";
