@@ -12,4 +12,5 @@ export * from "./update-list-order";
 
 /** Cards */
 export * from "./create-card";
+export * from "./update-card";
 export * from "./update-card-order";

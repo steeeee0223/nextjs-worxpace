@@ -3,6 +3,8 @@ import { Board, List } from "@prisma/client";
 import { db } from "@/lib/db";
 import { ListWithCards } from "@/lib/types";
 
+export const fetchUrl = (url: string) => fetch(url).then((res) => res.json());
+
 export const fetchBoards = async (orgId: string): Promise<Board[]> =>
     await db.board.findMany({
         where: { orgId },
@@ -44,6 +46,12 @@ export const fetchLastList = async (
         where: { boardId },
         orderBy: { order: "desc" },
         select: { order: true },
+    });
+
+export const fetchCardById = async (orgId: string, cardId: string) =>
+    await db.card.findUnique({
+        where: { id: cardId, list: { board: { orgId } } },
+        include: { list: { select: { title: true } } },
     });
 
 export const fetchLastCard = async (listId: string) =>
