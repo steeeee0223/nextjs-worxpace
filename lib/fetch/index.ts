@@ -45,3 +45,10 @@ export const fetchLastList = async (
         orderBy: { order: "desc" },
         select: { order: true },
     });
+
+export const fetchLastCard = async (listId: string) =>
+    await db.card.findFirst({
+        where: { listId },
+        orderBy: { order: "desc" },
+        select: { order: true },
+    });

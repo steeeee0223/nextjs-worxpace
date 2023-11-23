@@ -25,7 +25,7 @@ const ListContainer = ({ data, boardId }: ListContainerProps) => {
             ))}
             <ListForm />
             {/* Empty space at the end of x-axis */}
-            <div className="" />
+            <div className="flex-shrink-0 w-1" />
         </ol>
     );
 };

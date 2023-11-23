@@ -48,7 +48,7 @@ export const ListForm = () => {
 
     const onSubmit = (formData: FormData) => {
         const title = formData.get("title") as string;
-        const boardId = formData.get("boardId") as string;
+        const boardId = params.boardId as string;
         execute({ title, boardId });
     };
 
@@ -61,7 +61,7 @@ export const ListForm = () => {
             >
                 <FormInput
                     ref={inputRef}
-                    // errors={fieldErrors}
+                    errors={fieldErrors}
                     id="title"
                     className={cn(
                         theme.inputBorder,
@@ -69,7 +69,6 @@ export const ListForm = () => {
                     )}
                     placeholder="Enter list title..."
                 />
-                <input hidden value={params.boardId} readOnly name="boardId" />
                 <div className={theme.flex.gap1}>
                     <FormSubmit className="mr-2">Add list</FormSubmit>
                     <Button onClick={disableEditing} size="sm" variant="ghost">
