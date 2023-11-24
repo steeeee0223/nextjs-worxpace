@@ -9,10 +9,10 @@ import { toast } from "sonner";
 import { updateCard } from "@/actions";
 import { Skeleton } from "@/components/ui";
 import { FormInput } from "@/components/form";
+import { theme } from "@/constants/theme";
 import { useAction } from "@/hooks";
 import { CardWithList } from "@/lib/types";
 import { cn } from "@/lib/utils";
-import { theme } from "@/constants/theme";
 
 interface HeaderProps {
     data: CardWithList;
@@ -49,7 +49,7 @@ export const Header = ({ data }: HeaderProps) => {
 
     return (
         <div className="flex items-start gap-x-3 mb-6 w-full">
-            <Layout className={cn(theme.text.neutral, "h-5 w-5 mt-1")} />
+            <Layout className="text-secondary-foreground h-5 w-5 mt-1" />
             <div className="w-full">
                 <form action={onSubmit}>
                     <FormInput
@@ -58,7 +58,7 @@ export const Header = ({ data }: HeaderProps) => {
                         id="title"
                         defaultValue={title}
                         className={cn(
-                            theme.text.neutral,
+                            "focus:text-neutral-700 text-secondary-foreground",
                             "border-transparent focus-visible:border-input",
                             "font-semibold text-xl px-1 bg-transparent relative -left-1.5 w-[95%] focus-visible:bg-white mb-0.5 truncate"
                         )}
@@ -75,10 +75,10 @@ export const Header = ({ data }: HeaderProps) => {
 Header.Skeleton = function HeaderSkeleton() {
     return (
         <div className="flex items-start gap-x-3 mb-6">
-            <Skeleton className="h-6 w-6 mt-1 bg-neutral-200" />
+            <Skeleton className={cn(theme.bg.textArea, "h-6 w-6 mt-1")} />
             <div>
-                <Skeleton className="w-24 h-6 mb-1 bg-neutral-200" />
-                <Skeleton className="w-12 h-4 bg-neutral-200" />
+                <Skeleton className={cn(theme.bg.textArea, "w-24 h-6 mb-1")} />
+                <Skeleton className={cn(theme.bg.textArea, "w-12 h-4")} />
             </div>
         </div>
     );

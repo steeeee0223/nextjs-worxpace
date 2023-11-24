@@ -56,10 +56,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                     {label && (
                         <Label
                             htmlFor={id}
-                            className={cn(
-                                theme.text.neutral,
-                                "text-xs font-semibold"
-                            )}
+                            className="text-secondary-foreground text-xs font-semibold"
                         >
                             {label}
                         </Label>

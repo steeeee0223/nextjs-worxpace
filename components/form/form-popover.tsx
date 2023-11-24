@@ -63,12 +63,7 @@ export const FormPopover = ({
                 side={side}
                 sideOffset={sideOffset}
             >
-                <div
-                    className={cn(
-                        theme.text.neutral,
-                        "text-sm font-medium text-center pb-4"
-                    )}
-                >
+                <div className="text-muted-foreground text-sm font-medium text-center pb-4">
                     Create Board
                 </div>
                 <PopoverClose ref={closeRef} asChild>
@@ -76,7 +71,7 @@ export const FormPopover = ({
                         variant="ghost"
                         className={cn(
                             theme.size.auto,
-                            "p-2 absolute top-2 right-2 text-neutral-600"
+                            "p-2 absolute top-2 right-2 text-muted-foreground"
                         )}
                     >
                         <X className={theme.size.icon} />

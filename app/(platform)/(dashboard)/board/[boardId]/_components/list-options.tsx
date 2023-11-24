@@ -8,6 +8,7 @@ import { toast } from "sonner";
 import { copyList, deleteList } from "@/actions";
 import {
     Button,
+    ButtonProps,
     Popover,
     PopoverContent,
     PopoverTrigger,
@@ -50,10 +51,19 @@ export const ListOptions = ({
     const onDelete = (_formData: FormData) => executeDelete({ id, boardId });
     const onCopy = (_formData: FormData) => executeCopy({ id, boardId });
 
+    const actionProps: ButtonProps = {
+        className:
+            "rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm",
+        variant: "ghost",
+    };
+
     return (
         <Popover>
             <PopoverTrigger asChild>
-                <Button className={cn(theme.size.auto, "p-2")} variant="ghost">
+                <Button
+                    className={cn(theme.size.auto, "p-2 text-muted-foreground")}
+                    variant="ghost"
+                >
                     <MoreHorizontal className={cn(theme.size.icon)} />
                 </Button>
             </PopoverTrigger>
@@ -62,48 +72,29 @@ export const ListOptions = ({
                 side="bottom"
                 align="start"
             >
-                <div
-                    className={cn(
-                        theme.text.neutral,
-                        "text-sm font-medium text-center pb-4"
-                    )}
-                >
+                <div className="text-muted-foreground text-sm font-medium text-center pb-4">
                     List actions
                 </div>
                 <PopoverClose ref={closeRef} asChild>
                     <Button
                         className={cn(
                             theme.size.auto,
-                            "p-2 absolute top-2 right-2 text-neutral-600"
+                            "p-2 absolute top-2 right-2 text-muted-foreground"
                         )}
                         variant="ghost"
                     >
                         <X className={theme.size.icon} />
                     </Button>
                 </PopoverClose>
-                <Button
-                    onClick={onAddCard}
-                    className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
-                    variant="ghost"
-                >
+                <Button onClick={onAddCard} {...actionProps}>
                     Add card...
                 </Button>
                 <form action={onCopy}>
-                    <FormSubmit
-                        variant="ghost"
-                        className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
-                    >
-                        Copy list...
-                    </FormSubmit>
+                    <FormSubmit {...actionProps}>Copy list...</FormSubmit>
                 </form>
                 <Separator />
                 <form action={onDelete}>
-                    <FormSubmit
-                        variant="ghost"
-                        className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
-                    >
-                        Delete this list
-                    </FormSubmit>
+                    <FormSubmit {...actionProps}>Delete this list</FormSubmit>
                 </form>
             </PopoverContent>
         </Popover>

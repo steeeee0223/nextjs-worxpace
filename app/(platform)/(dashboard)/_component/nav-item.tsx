@@ -74,7 +74,7 @@ const NavItem = ({
                 onClick={() => onExpand(id)}
                 className={cn(
                     theme.flex.gap2,
-                    theme.text.neutral,
+                    "text-secondary-foreground",
                     "p-1.5 rounded-md hover:bg-neutral-400/10 transition text-start no-underline hover:no-underline",
                     isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
                 )}
@@ -99,7 +99,7 @@ const NavItem = ({
                         onClick={() => onClick(href)}
                         className={cn(
                             theme.background.none,
-                            theme.text.neutral,
+                            "text-secondary-foreground",
                             "w-full font-normal justify-start pl-10 mb-1",
                             "hover:bg-neutral-400/10",
                             pathname === href && "bg-sky-500/10 text-sky-700"

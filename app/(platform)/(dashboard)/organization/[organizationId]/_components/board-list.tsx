@@ -19,8 +19,7 @@ const BoardList = async ({ orgId }: BoardListProps) => {
             <div
                 className={cn(
                     theme.flex.center,
-                    theme.text.neutral,
-                    "font-semibold text-lg"
+                    "text-secondary-foreground font-semibold text-lg"
                 )}
             >
                 <User2 className="h-6 w-6 mr-2" />

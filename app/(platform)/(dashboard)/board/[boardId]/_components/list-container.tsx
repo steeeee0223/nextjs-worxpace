@@ -6,14 +6,14 @@ import {
     Droppable,
     type OnDragEndResponder,
 } from "@hello-pangea/dnd";
+import { toast } from "sonner";
 
+import { updateCardOrder, updateListOrder } from "@/actions";
+import { useAction } from "@/hooks";
 import { ListWithCards } from "@/lib/types";
+import { reorder } from "@/lib/utils";
 import { ListForm } from "./list-form";
 import ListItem from "./list-item";
-import { reorder } from "@/lib/utils";
-import { useAction } from "@/hooks";
-import { updateCardOrder, updateListOrder } from "@/actions";
-import { toast } from "sonner";
 
 interface ListContainerProps {
     data: ListWithCards[];
@@ -24,15 +24,11 @@ const ListContainer = ({ data, boardId }: ListContainerProps) => {
     const [orderedData, setOrderedData] = useState(data);
 
     const { execute: executeUpdateListOrder } = useAction(updateListOrder, {
-        onSuccess: () => {
-            toast.success(`List reordered`);
-        },
+        onSuccess: () => toast.success(`List reordered`),
         onError: (error) => toast.error(error),
     });
     const { execute: executeUpdateCardOrder } = useAction(updateCardOrder, {
-        onSuccess: () => {
-            toast.success(`Card reordered`);
-        },
+        onSuccess: () => toast.success(`Card reordered`),
         onError: (error) => toast.error(error),
     });
 
