@@ -3,6 +3,9 @@ export const theme = {
         navbar: "bg-background dark:bg-[#1F1F1F]",
         none: "bg-background dark:bg-none",
     },
+    bg: {
+        textArea: "bg-neutral-200 dark:bg-neutral-800",
+    },
     size: {
         auto: "w-auto h-auto",
         full: "w-full h-full",
@@ -10,6 +13,7 @@ export const theme = {
     },
     text: {
         neutral: "text-neutral-700 dark:text-neutral-300",
+        $neutral: "dark:text-neutral-300",
     },
     flex: {
         center: "flex items-center",
