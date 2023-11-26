@@ -9,7 +9,7 @@ interface BoardNavbarProps {
     data: Board;
 }
 
-export const BoardNavbar = ({ data }: BoardNavbarProps) => {
+export const BoardNavbar = ({ data: { id, title } }: BoardNavbarProps) => {
     return (
         <div
             className={cn(
@@ -19,9 +19,9 @@ export const BoardNavbar = ({ data }: BoardNavbarProps) => {
                 "bg-black/50 text-white"
             )}
         >
-            <BoardTitleForm data={data} />
+            <BoardTitleForm boardId={id} title={title} />
             <div className="ml-auto">
-                <BoardOptions boardId={data.id} />
+                <BoardOptions boardId={id} />
             </div>
         </div>
     );

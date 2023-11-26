@@ -118,7 +118,7 @@ const ListContainer = ({ data, boardId }: ListContainerProps) => {
                             <ListItem key={list.id} index={index} data={list} />
                         ))}
                         {placeholder}
-                        <ListForm />
+                        <ListForm boardId={boardId} />
                         {/* Empty space at the end of x-axis */}
                         <div className="flex-shrink-0 w-1" />
                     </ol>

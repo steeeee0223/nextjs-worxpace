@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Board } from "@prisma/client";
 import { toast } from "sonner";
 
 import { updateBoard } from "@/actions";
@@ -12,23 +11,15 @@ import { useAction } from "@/hooks";
 import { cn } from "@/lib/utils";
 
 interface BoardTitleFormProps {
-    data: Board;
+    title: string;
+    boardId: string;
 }
 
-const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
-    const { execute } = useAction(updateBoard, {
-        onSuccess: (data) => {
-            toast.success(`Board "${data.title}" updated!`);
-            setTitle(data.title);
-            disableEditing();
-        },
-        onError: (error) => toast.error(error),
-    });
-
+const BoardTitleForm = ({ title, boardId }: BoardTitleFormProps) => {
     const formRef = useRef<HTMLFormElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const [title, setTitle] = useState(data.title);
+    const [defaultTitle, setDefaultTitle] = useState(title);
     const [isEditing, setIsEditing] = useState(false);
 
     const enableEditing = () => {
@@ -40,10 +31,19 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
     };
     const disableEditing = () => setIsEditing(false);
 
+    const { execute } = useAction(updateBoard, {
+        onSuccess: ({ title }) => {
+            toast.success(`Board "${title}" updated!`);
+            setDefaultTitle(title);
+            disableEditing();
+        },
+        onError: (error) => toast.error(error),
+    });
+
     const onBlur = () => formRef.current?.requestSubmit();
     const onSubmit = (formData: FormData) => {
         const title = formData.get("title") as string;
-        execute({ title: title, id: data.id });
+        execute({ title: title, id: boardId });
     };
 
     return isEditing ? (
@@ -52,7 +52,7 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
                 ref={inputRef}
                 id="title"
                 onBlur={onBlur}
-                defaultValue={title}
+                defaultValue={defaultTitle}
                 className="text-lg font-bold px-[7px] py-1 h-7 bg-transparent focus-visible:outline-none focus-visible:ring-transparent border-none"
             />
         </form>
@@ -62,7 +62,7 @@ const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
             variant="transparent"
             className={cn(theme.size.auto, "font-bold text-lg p-1 px-2")}
         >
-            {title}
+            {defaultTitle}
         </Button>
     );
 };

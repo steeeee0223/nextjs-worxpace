@@ -1,11 +1,8 @@
 "use client";
 
 import { useRef } from "react";
-import { List } from "@prisma/client";
 import { MoreHorizontal, X } from "lucide-react";
-import { toast } from "sonner";
 
-import { copyList, deleteList } from "@/actions";
 import {
     Button,
     ButtonProps,
@@ -17,39 +14,32 @@ import {
 } from "@/components/ui";
 import { FormSubmit } from "@/components/form";
 import { theme } from "@/constants/theme";
-import { useAction } from "@/hooks";
 import { cn } from "@/lib/utils";
 
 interface ListOptionsProps {
-    data: List;
-    onAddCard: () => void;
+    listId: string;
+    onAddCard?: () => void;
+    onCopy?: (listId: string) => void;
+    onDelete?: (listId: string) => void;
 }
 
 export const ListOptions = ({
-    data: { id, boardId },
+    listId,
     onAddCard,
+    onCopy,
+    onDelete,
 }: ListOptionsProps) => {
     const closeRef = useRef<HTMLButtonElement>(null);
 
-    const onError = (error: string) => toast.error(error);
-
-    const { execute: executeDelete } = useAction(deleteList, {
-        onSuccess: (data) => {
-            toast.success(`List "${data.title}" deleted`);
-            closeRef.current?.click();
-        },
-        onError,
-    });
-    const { execute: executeCopy } = useAction(copyList, {
-        onSuccess: (data) => {
-            toast.success(`List "${data.title}" copied`);
-            closeRef.current?.click();
-        },
-        onError,
-    });
-
-    const onDelete = (_formData: FormData) => executeDelete({ id, boardId });
-    const onCopy = (_formData: FormData) => executeCopy({ id, boardId });
+    const handleAddCard = () => onAddCard?.();
+    const handleCopy = (_formData: FormData) => {
+        onCopy?.(listId);
+        closeRef.current?.click();
+    };
+    const handleDelete = (_formData: FormData) => {
+        onDelete?.(listId);
+        closeRef.current?.click();
+    };
 
     const actionProps: ButtonProps = {
         className:
@@ -86,14 +76,14 @@ export const ListOptions = ({
                         <X className={theme.size.icon} />
                     </Button>
                 </PopoverClose>
-                <Button onClick={onAddCard} {...actionProps}>
+                <Button onClick={handleAddCard} {...actionProps}>
                     Add card...
                 </Button>
-                <form action={onCopy}>
+                <form action={handleCopy}>
                     <FormSubmit {...actionProps}>Copy list...</FormSubmit>
                 </form>
                 <Separator />
-                <form action={onDelete}>
+                <form action={handleDelete}>
                     <FormSubmit {...actionProps}>Delete this list</FormSubmit>
                 </form>
             </PopoverContent>
