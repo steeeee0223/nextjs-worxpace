@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 import { Board } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
+import { ActionHandler, createAuditLog, createSafeAction, db } from "@/lib";
 import { CreateBoard, type CreateBoardInput } from "./schema";
 
 const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
@@ -23,6 +22,11 @@ const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
             image = { imageId, thumbUrl, fullUrl, username, linkHTML };
         }
         board = await db.board.create({ data: { orgId, title, image } });
+
+        await createAuditLog(
+            { title, entityId: board.id, type: "BOARD" },
+            "CREATE"
+        );
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to create board." };

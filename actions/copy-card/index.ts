@@ -4,9 +4,14 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
-import { fetchCardById, fetchLastCard } from "@/lib/fetch";
+import {
+    ActionHandler,
+    createAuditLog,
+    createSafeAction,
+    db,
+    fetchCardById,
+    fetchLastCard,
+} from "@/lib";
 import { CopyCard, type CopyCardInput } from "./schema";
 
 const handler: ActionHandler<CopyCardInput, Card> = async (data) => {
@@ -31,6 +36,11 @@ const handler: ActionHandler<CopyCardInput, Card> = async (data) => {
                 listId,
             },
         });
+
+        await createAuditLog(
+            { entityId: card.id, title, type: "CARD" },
+            "CREATE"
+        );
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to copy card." };

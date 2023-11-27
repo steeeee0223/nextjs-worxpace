@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
+import { ActionHandler, createAuditLog, createSafeAction, db } from "@/lib";
 import { UpdateCard, type UpdateCardInput } from "./schema";
 
 const handler: ActionHandler<UpdateCardInput, Card> = async (data) => {
@@ -20,6 +19,11 @@ const handler: ActionHandler<UpdateCardInput, Card> = async (data) => {
             where: { id, list: { board: { orgId } } },
             data: info,
         });
+
+        await createAuditLog(
+            { entityId: id, title: card.title, type: "CARD" },
+            "UPDATE"
+        );
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to update-card." };

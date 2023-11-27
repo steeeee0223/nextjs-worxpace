@@ -4,9 +4,14 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
-import { fetchLastCard, fetchListById } from "@/lib/fetch";
+import {
+    ActionHandler,
+    createAuditLog,
+    createSafeAction,
+    db,
+    fetchLastCard,
+    fetchListById,
+} from "@/lib";
 import { CreateCard, type CreateCardInput } from "./schema";
 
 const handler: ActionHandler<CreateCardInput, Card> = async (data) => {
@@ -25,6 +30,11 @@ const handler: ActionHandler<CreateCardInput, Card> = async (data) => {
         card = await db.card.create({
             data: { title, listId, order: newOrder },
         });
+
+        await createAuditLog(
+            { entityId: card.id, title, type: "CARD" },
+            "CREATE"
+        );
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to create-card." };

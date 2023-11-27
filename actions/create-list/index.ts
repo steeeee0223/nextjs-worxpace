@@ -3,9 +3,14 @@
 import { auth } from "@clerk/nextjs";
 import { List } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
-import { fetchBoardById, fetchLastList } from "@/lib/fetch";
+import {
+    ActionHandler,
+    createAuditLog,
+    createSafeAction,
+    db,
+    fetchBoardById,
+    fetchLastList,
+} from "@/lib";
 import { CreateList, type CreateListInput } from "./schema";
 
 const handler: ActionHandler<CreateListInput, List> = async (data) => {
@@ -25,6 +30,11 @@ const handler: ActionHandler<CreateListInput, List> = async (data) => {
         list = await db.list.create({
             data: { title, boardId, order: newOrder },
         });
+
+        await createAuditLog(
+            { entityId: list.id, title: list.title, type: "LIST" },
+            "CREATE"
+        );
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to create list." };

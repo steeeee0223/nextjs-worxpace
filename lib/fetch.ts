@@ -1,4 +1,4 @@
-import { Board, List } from "@prisma/client";
+import { AuditLog, Board, Card, ENTITY_TYPE, List } from "@prisma/client";
 
 import { db } from "@/lib/db";
 import { ListWithCards } from "@/lib/types";
@@ -48,7 +48,10 @@ export const fetchLastList = async (
         select: { order: true },
     });
 
-export const fetchCardById = async (orgId: string, cardId: string) =>
+export const fetchCardById = async (
+    orgId: string,
+    cardId: string
+): Promise<Card | null> =>
     await db.card.findUnique({
         where: { id: cardId, list: { board: { orgId } } },
         include: { list: { select: { title: true } } },
@@ -59,4 +62,25 @@ export const fetchLastCard = async (listId: string) =>
         where: { listId },
         orderBy: { order: "desc" },
         select: { order: true },
+    });
+
+export const fetchLogs = async (
+    userId: string,
+    orgId: string
+): Promise<AuditLog[]> =>
+    await db.auditLog.findMany({
+        where: { orgId },
+        orderBy: { createdAt: "desc" },
+    });
+
+export const fetchLogsByType = async (
+    userId: string,
+    orgId: string,
+    entityId: string,
+    type: ENTITY_TYPE
+): Promise<AuditLog[]> =>
+    await db.auditLog.findMany({
+        where: { orgId, entity: { is: { entityId, type } } },
+        orderBy: { createdAt: "desc" },
+        take: 3,
     });

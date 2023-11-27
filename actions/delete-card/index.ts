@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
+import { ActionHandler, createAuditLog, createSafeAction, db } from "@/lib";
 import { DeleteCard, type DeleteCardInput } from "./schema";
 
 const handler: ActionHandler<DeleteCardInput, Card> = async (data) => {
@@ -19,6 +18,11 @@ const handler: ActionHandler<DeleteCardInput, Card> = async (data) => {
         card = await db.card.delete({
             where: { id, list: { board: { orgId } } },
         });
+
+        await createAuditLog(
+            { entityId: id, title: card.title, type: "CARD" },
+            "DELETE"
+        );
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to delete card." };

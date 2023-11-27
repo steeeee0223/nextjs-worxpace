@@ -3,8 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
+import { ActionHandler, createAuditLog, createSafeAction, db } from "@/lib";
 import { UpdateList, type UpdateListInput } from "./schema";
 
 const handler: ActionHandler<UpdateListInput, any> = async (data) => {
@@ -19,6 +18,8 @@ const handler: ActionHandler<UpdateListInput, any> = async (data) => {
             where: { id, boardId, board: { orgId } },
             data: { title },
         });
+
+        await createAuditLog({ entityId: id, title, type: "CARD" }, "UPDATE");
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to update list." };

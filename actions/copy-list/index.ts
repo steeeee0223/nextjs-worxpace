@@ -4,9 +4,14 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 import { List } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
-import { fetchLastList, fetchListById } from "@/lib/fetch";
+import {
+    ActionHandler,
+    createAuditLog,
+    createSafeAction,
+    db,
+    fetchLastList,
+    fetchListById,
+} from "@/lib";
 import { CopyList, type CopyListInput } from "./schema";
 
 const handler: ActionHandler<CopyListInput, List> = async (data) => {
@@ -45,6 +50,11 @@ const handler: ActionHandler<CopyListInput, List> = async (data) => {
             },
             include: { cards: true },
         });
+
+        await createAuditLog(
+            { entityId: list.id, title: list.title, type: "LIST" },
+            "CREATE"
+        );
     } catch (error) {
         console.log(`ERROR`, error);
         return { error: "Failed to copy list." };

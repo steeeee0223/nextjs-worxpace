@@ -20,7 +20,7 @@ export const createSafeAction =
     async (data) => {
         const result = schema.safeParse(data);
         return result.success
-            ? handler(result.data)
+            ? await handler(result.data)
             : {
                   fieldErrors: result.error.flatten()
                       .fieldErrors as FieldErrors<TInput>,
