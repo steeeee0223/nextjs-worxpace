@@ -4,7 +4,8 @@ import { HelpCircle, User2 } from "lucide-react";
 import { Hint, Skeleton } from "@/components/ui";
 import { FormPopover } from "@/components/form";
 import { theme } from "@/constants/theme";
-import { cn, fetchBoards } from "@/lib";
+import { cn, fetchBoards, getAvailableCount } from "@/lib";
+import { MAX_FREE_BOARDS } from "@/constants/subscription";
 
 interface BoardListProps {
     orgId: string;
@@ -12,6 +13,7 @@ interface BoardListProps {
 
 const BoardList = async ({ orgId }: BoardListProps) => {
     const boards = await fetchBoards(orgId);
+    const availableCount = await getAvailableCount();
 
     return (
         <div className="space-y-4">
@@ -57,6 +59,9 @@ const BoardList = async ({ orgId }: BoardListProps) => {
                         )}
                     >
                         <p className="text-sm">Create new board</p>
+                        <span className="text-xs">
+                            {MAX_FREE_BOARDS - availableCount} remaining
+                        </span>
                         <Hint
                             sideOffset={40}
                             description={`

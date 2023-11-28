@@ -5,7 +5,13 @@ import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 import { Board } from "@prisma/client";
 
-import { ActionHandler, createAuditLog, createSafeAction, db } from "@/lib";
+import {
+    ActionHandler,
+    createAuditLog,
+    createSafeAction,
+    db,
+    setAvailableCount,
+} from "@/lib";
 import { DeleteBoard, DeleteBoardInput } from "./schema";
 
 const handler: ActionHandler<DeleteBoardInput, Board> = async (data) => {
@@ -17,7 +23,9 @@ const handler: ActionHandler<DeleteBoardInput, Board> = async (data) => {
     let board;
     try {
         board = await db.board.delete({ where: { id, orgId } });
-
+        /** Limitations */
+        await setAvailableCount("DECREASE");
+        /** Activity Log */
         await createAuditLog(
             { title: board.title, entityId: id, type: "BOARD" },
             "DELETE"
