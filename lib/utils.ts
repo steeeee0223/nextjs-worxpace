@@ -9,6 +9,11 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 /**
+ * Utility for fetching url
+ */
+export const fetchUrl = (url: string) => fetch(url).then((res) => res.json());
+
+/**
  * Utility for DND reordering
  */
 export function reorder<T>(list: T[], start: number, end: number): T[] {

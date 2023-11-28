@@ -4,8 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { db } from "@/lib/db";
+import { ActionHandler, createSafeAction, db } from "@/lib";
 import { UpdateCardOrder, type UpdateCardOrderInput } from "./schema";
 
 const handler: ActionHandler<UpdateCardOrderInput, Card[]> = async (data) => {

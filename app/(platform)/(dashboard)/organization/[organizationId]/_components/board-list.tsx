@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { HelpCircle, User2 } from "lucide-react";
 
-import { fetchBoards } from "@/lib/fetch";
 import { Hint, Skeleton } from "@/components/ui";
 import { FormPopover } from "@/components/form";
-import { cn } from "@/lib/utils";
 import { theme } from "@/constants/theme";
+import { cn, fetchBoards } from "@/lib";
 
 interface BoardListProps {
     orgId: string;

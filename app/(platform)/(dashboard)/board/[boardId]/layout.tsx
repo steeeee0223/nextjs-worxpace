@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import { notFound, redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 
-import { fetchBoardById } from "@/lib/fetch";
+import { fetchBoardById } from "@/lib";
 import { BoardNavbar } from "./_components/board-navbar";
 
 type Params = { params: { boardId: string } };

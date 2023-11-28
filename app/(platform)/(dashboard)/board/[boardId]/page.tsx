@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
 
-import { fetchLists } from "@/lib/fetch";
+import { fetchLists } from "@/lib";
 import ListContainer from "./_components/list-container";
 
 type Params = {

@@ -1,6 +1,7 @@
-import { fetchCardById } from "@/lib/fetch";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs";
+
+import { fetchCardById } from "@/lib";
 
 type Params = { params: { cardId: string } };
 
