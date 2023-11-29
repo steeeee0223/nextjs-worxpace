@@ -9,7 +9,7 @@ import { useLocalStorage } from "usehooks-ts";
 import { Accordion, Button, Separator, Skeleton } from "@/components/ui";
 import { theme } from "@/constants/theme";
 import { cn } from "@/lib";
-import { NavItem, Organization } from ".";
+import NavItem  from "./nav-item";
 
 interface SidebarProps {
     storageKey?: string;
