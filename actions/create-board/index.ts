@@ -21,7 +21,7 @@ const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
 
     const hasReachedLimit = await hasAvailableCount();
     const isPro = await checkSubscription();
-    if (!hasReachedLimit || !isPro)
+    if (!hasReachedLimit && !isPro)
         return {
             error: "You have reached your limit of free boards. Please upgrade to create more.",
         };
