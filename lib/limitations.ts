@@ -1,16 +1,6 @@
-import { auth } from "@clerk/nextjs";
-
 import { MAX_FREE_BOARDS } from "@/constants/subscription";
-import { Client } from "./types";
-import { fetchLimit, updateLimit } from "./db";
-
-export const fetchClient = (): Client => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) throw new Error("Unauthorized");
-    return orgId
-        ? { role: "ORG", clientId: orgId }
-        : { role: "USER", clientId: userId };
-};
+import { fetchLimit, updateLimit } from "@/lib/db";
+import { fetchClient } from "@/lib/utils";
 
 export const setAvailableCount = async (action: "INCREASE" | "DECREASE") => {
     const client = fetchClient();

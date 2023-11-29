@@ -11,10 +11,10 @@ export async function generateMetadata() {
 
 const OrganizationIdLayout = ({ children }: PropsWithChildren) => {
     return (
-        <div className="">
+        <>
             <OrgControl />
             {children}
-        </div>
+        </>
     );
 };
 

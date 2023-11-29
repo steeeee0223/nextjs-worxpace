@@ -7,7 +7,11 @@ import { CreditCard } from "lucide-react";
 import { theme } from "@/constants/theme";
 import { Skeleton } from "@/components/ui";
 
-const Info = () => {
+interface InfoProps {
+    isPro: boolean;
+}
+
+const Info = ({ isPro }: InfoProps) => {
     const { organization, isLoaded } = useOrganization();
 
     return isLoaded ? (
@@ -26,7 +30,7 @@ const Info = () => {
                     className={`${theme.flex.center} text-xs text-muted-foreground`}
                 >
                     <CreditCard className="h-3 w-3 mr-1" />
-                    Free
+                    {isPro ? "Pro" : "Free"}
                 </div>
             </div>
         </div>

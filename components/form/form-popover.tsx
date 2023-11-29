@@ -14,7 +14,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui";
 import { theme } from "@/constants/theme";
-import { useAction } from "@/hooks";
+import { useAction, useProModal } from "@/hooks";
 import { cn } from "@/lib/utils";
 import { FormInput } from "./form-input";
 import { FormSubmit } from "./form-submit";
@@ -35,6 +35,7 @@ export const FormPopover = ({
 }: FormPopoverProps) => {
     const router = useRouter();
     const closeRef = useRef<HTMLButtonElement>(null);
+    const proModal = useProModal();
 
     const { execute, fieldErrors } = useAction(createBoard, {
         onSuccess: (data) => {
@@ -44,8 +45,8 @@ export const FormPopover = ({
             router.push(`/board/${data.id}`);
         },
         onError: (error) => {
-            console.log(error);
             toast.error(error);
+            proModal.onOpen();
         },
     });
     const onSubmit = (formData: FormData) => {

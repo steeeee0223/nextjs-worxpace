@@ -1,5 +1,8 @@
+import { auth } from "@clerk/nextjs";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
+
+import { Client } from "@/lib/types";
 
 /**
  * Utility for tailwind classnames
@@ -11,7 +14,9 @@ export function cn(...inputs: ClassValue[]) {
 /**
  * Utility for fetching url
  */
-export const fetchUrl = (url: string) => fetch(url).then((res) => res.json());
+export function fetchUrl(url: string) {
+    return fetch(url).then((res) => res.json());
+}
 
 /**
  * Utility for DND reordering
@@ -21,4 +26,22 @@ export function reorder<T>(list: T[], start: number, end: number): T[] {
     const [removed] = result.splice(start, 1);
     result.splice(end, 0, removed);
     return result;
+}
+
+/**
+ * Utility for authorization
+ */
+export function fetchClient(): Client {
+    const { userId, orgId } = auth();
+    if (!userId && !orgId) throw new Error("Unauthorized");
+    return orgId
+        ? { role: "ORG", clientId: orgId }
+        : { role: "USER", clientId: userId };
+}
+
+/**
+ * Url
+ */
+export function absoluteUrl(path: string): string {
+    return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }

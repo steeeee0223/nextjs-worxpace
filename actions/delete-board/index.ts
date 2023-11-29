@@ -7,6 +7,7 @@ import { Board } from "@prisma/client";
 
 import {
     ActionHandler,
+    checkSubscription,
     createAuditLog,
     createSafeAction,
     db,
@@ -18,13 +19,15 @@ const handler: ActionHandler<DeleteBoardInput, Board> = async (data) => {
     const { userId, orgId } = auth();
     if (!userId || !orgId) return { error: "Unauthorized" };
 
+    const isPro = await checkSubscription();
+
     const { id } = data;
 
     let board;
     try {
         board = await db.board.delete({ where: { id, orgId } });
         /** Limitations */
-        await setAvailableCount("DECREASE");
+        if (!isPro) await setAvailableCount("DECREASE");
         /** Activity Log */
         await createAuditLog(
             { title: board.title, entityId: id, type: "BOARD" },

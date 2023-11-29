@@ -6,6 +6,7 @@ import { Board } from "@prisma/client";
 
 import {
     ActionHandler,
+    checkSubscription,
     createAuditLog,
     createSafeAction,
     db,
@@ -19,7 +20,8 @@ const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
     if (!userId || !orgId) return { error: "Unauthorized" };
 
     const hasReachedLimit = await hasAvailableCount();
-    if (!hasReachedLimit)
+    const isPro = await checkSubscription();
+    if (!hasReachedLimit || !isPro)
         return {
             error: "You have reached your limit of free boards. Please upgrade to create more.",
         };
@@ -36,7 +38,7 @@ const handler: ActionHandler<CreateBoardInput, Board> = async (data) => {
         }
         board = await db.board.create({ data: { orgId, title, image } });
         /** Limitations */
-        await setAvailableCount("INCREASE");
+        if (!isPro) await setAvailableCount("INCREASE");
         /** Activity Log */
         await createAuditLog(
             { title, entityId: board.id, type: "BOARD" },
