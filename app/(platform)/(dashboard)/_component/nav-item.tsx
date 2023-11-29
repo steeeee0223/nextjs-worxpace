@@ -12,59 +12,56 @@ import {
     Skeleton,
 } from "@/components/ui";
 import { theme } from "@/constants/theme";
-import { cn } from "@/lib/utils";
+import { Client as _Client, cn } from "@/lib";
 
-export type Organization = {
+export type Client = {
+    role: _Client["role"];
     id: string;
-    slug: string;
-    imageUrl: string;
     name: string;
+    imageUrl: string;
+    slug?: string | null;
 };
 
 interface NavItemProps {
     isExpanded: boolean;
     isActive: boolean;
-    organization: Organization;
+    client: Client;
     onExpand: (id: string) => void;
 }
 
-const getRoutes = (id: string) => {
+const getRoutes = ({ role, clientId: id }: _Client) => {
     const iconStyle = cn(theme.size.icon, "mr-2");
+    const path = role === "USER" ? "personal" : "organization";
     return [
         {
             label: "Boards",
             icon: <Layout className={iconStyle} />,
-            href: `/organization/${id}`,
+            href: `/${path}/${id}`,
         },
         {
             label: "Activity",
             icon: <Activity className={iconStyle} />,
-            href: `/organization/${id}/activity`,
+            href: `/${path}/${id}/activity`,
         },
         {
             label: "Settings",
             icon: <Settings className={iconStyle} />,
-            href: `/organization/${id}/settings`,
+            href: `/${path}/${id}/settings`,
         },
         {
             label: "Billing",
             icon: <CreditCard className={iconStyle} />,
-            href: `/organization/${id}/billing`,
+            href: `/${path}/${id}/billing`,
         },
     ];
 };
 
-const NavItem = ({
-    isExpanded,
-    isActive,
-    organization,
-    onExpand,
-}: NavItemProps) => {
+const NavItem = ({ isExpanded, isActive, client, onExpand }: NavItemProps) => {
     const router = useRouter();
     const pathname = usePathname();
 
-    const { id, imageUrl, name, slug } = organization;
-    const routes = getRoutes(id);
+    const { role, id, imageUrl, name, slug } = client;
+    const routes = getRoutes({ role, clientId: id });
 
     const onClick = (href: string) => router.push(href);
 
@@ -84,7 +81,7 @@ const NavItem = ({
                         <Image
                             fill
                             src={imageUrl}
-                            alt="Organization"
+                            alt="Role"
                             className="rounded-sm object-cover"
                         />
                     </div>

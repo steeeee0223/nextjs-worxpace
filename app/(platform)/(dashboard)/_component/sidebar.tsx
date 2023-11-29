@@ -1,23 +1,38 @@
 "use client";
 
+import { PropsWithChildren } from "react";
 import Link from "next/link";
-import { useOrganization, useOrganizationList } from "@clerk/nextjs";
+import { useOrganization, useOrganizationList, useUser } from "@clerk/nextjs";
 import { Plus } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
 
-import { Accordion, Button, Skeleton } from "@/components/ui";
+import { Accordion, Button, Separator, Skeleton } from "@/components/ui";
 import { theme } from "@/constants/theme";
+import { cn } from "@/lib";
 import { NavItem, Organization } from ".";
 
 interface SidebarProps {
     storageKey?: string;
 }
 
+const Container = ({ children }: PropsWithChildren) => (
+    <div
+        className={cn(
+            theme.flex.center,
+            "text-muted-foreground font-medium text-xs px-1 py-2"
+        )}
+    >
+        {children}
+    </div>
+);
+
 const Sidebar = ({ storageKey = "x-sidebar-state" }: SidebarProps) => {
     const [expanded, setExpanded] = useLocalStorage<Record<string, any>>(
         storageKey,
         {}
     );
+
+    const { user } = useUser();
     const { organization: activeOrg, isLoaded: isLoadedOrg } =
         useOrganization();
     const { userMemberships, isLoaded: isLoadedOrgList } = useOrganizationList({
@@ -35,7 +50,12 @@ const Sidebar = ({ storageKey = "x-sidebar-state" }: SidebarProps) => {
     const onExpand = (id: string) =>
         setExpanded((curr) => ({ ...curr, [id]: !expanded[id] }));
 
-    if (!isLoadedOrg || !isLoadedOrgList || userMemberships.isLoading) {
+    if (
+        !isLoadedOrg ||
+        !isLoadedOrgList ||
+        userMemberships.isLoading ||
+        !user
+    ) {
         return (
             <>
                 <div className={`${theme.flex.center} justify-between mb-2`}>
@@ -53,8 +73,8 @@ const Sidebar = ({ storageKey = "x-sidebar-state" }: SidebarProps) => {
 
     return (
         <>
-            <div className={`${theme.flex.center} font-medium text-xs mb-1`}>
-                <span className="pl-4">Workspaces</span>
+            <Container>
+                <span>Workspaces</span>
                 <Button
                     asChild
                     type="button"
@@ -66,18 +86,38 @@ const Sidebar = ({ storageKey = "x-sidebar-state" }: SidebarProps) => {
                         <Plus className={theme.size.icon} />
                     </Link>
                 </Button>
-            </div>
+            </Container>
+            <Separator className="w-full my-2" />
             <Accordion
                 type="multiple"
                 defaultValue={defaultValues}
                 className="space-y-2"
             >
+                <Container>
+                    <span>Personal</span>
+                </Container>
+                <NavItem
+                    key={user.id}
+                    isActive={!activeOrg}
+                    isExpanded={expanded[user.id]}
+                    client={{
+                        role: "USER",
+                        id: user.id,
+                        name: `${user.firstName} ${user.lastName}`,
+                        imageUrl: user.imageUrl,
+                    }}
+                    onExpand={onExpand}
+                />
+                <Separator className="w-full my-2" />
+                <Container>
+                    <span>Organizations</span>
+                </Container>
                 {userMemberships.data.map(({ organization }) => (
                     <NavItem
                         key={organization.id}
                         isActive={activeOrg?.id === organization.id}
                         isExpanded={expanded[organization.id]}
-                        organization={organization as Organization}
+                        client={{ ...organization, role: "ORG" }}
                         onExpand={onExpand}
                     />
                 ))}
