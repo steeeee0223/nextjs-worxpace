@@ -6,7 +6,7 @@ import { fetchLogs } from "@/lib";
 
 const ActivityList = async () => {
     const { userId, orgId } = auth();
-    if (!userId || !orgId) redirect("/select-org");
+    if (!userId && !orgId) redirect("/select-org");
 
     const logs = await fetchLogs(userId, orgId);
 

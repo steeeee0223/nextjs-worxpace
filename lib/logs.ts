@@ -1,19 +1,20 @@
 import { auth, currentUser } from "@clerk/nextjs";
-import { ACTION, AuditLog, Entity } from "@prisma/client";
+import { ACTION, AuditLog, Entity, ROLE } from "@prisma/client";
 
-import { db } from "@/lib/db";
+import { db } from "@/lib";
 
 export const createAuditLog = async (entity: Entity, action: ACTION) => {
     try {
         const { orgId } = auth();
         const user = await currentUser();
-        if (!user || !orgId) throw new Error("User not found!");
+        if (!user) throw new Error("User not found!");
 
         await db.auditLog.create({
             data: {
-                orgId,
                 entity,
                 action,
+                orgId: orgId ?? undefined,
+                role: orgId ? ROLE.ORG : ROLE.USER,
                 user: {
                     userId: user.id,
                     image: user.imageUrl,

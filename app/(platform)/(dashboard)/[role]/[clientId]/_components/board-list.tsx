@@ -8,11 +8,11 @@ import { checkSubscription, cn, fetchBoards, getAvailableCount } from "@/lib";
 import { MAX_FREE_BOARDS } from "@/constants/subscription";
 
 interface BoardListProps {
-    orgId: string;
+    clientId: string;
 }
 
-const BoardList = async ({ orgId }: BoardListProps) => {
-    const boards = await fetchBoards(orgId);
+const BoardList = async ({ clientId }: BoardListProps) => {
+    const boards = await fetchBoards(clientId);
     const availableCount = await getAvailableCount();
     const isPro = await checkSubscription();
 

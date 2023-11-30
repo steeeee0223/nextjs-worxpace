@@ -1,11 +1,18 @@
 "use server";
 
-import { auth, currentUser } from "@clerk/nextjs";
-
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
-import { StripeRedirect, type StripeRedirectInput } from "./schema";
-import { absoluteUrl, db, fetchClient, fetchSubscription, stripe } from "@/lib";
 import { revalidatePath } from "next/cache";
+import { currentUser } from "@clerk/nextjs";
+
+import { PATH } from "@/constants/site";
+import {
+    absoluteUrl,
+    fetchClient,
+    fetchSubscription,
+    stripe,
+    ActionHandler,
+    createSafeAction,
+} from "@/lib";
+import { StripeRedirect, type StripeRedirectInput } from "./schema";
 
 const handler: ActionHandler<StripeRedirectInput, string> = async (data) => {
     let client;
@@ -18,10 +25,7 @@ const handler: ActionHandler<StripeRedirectInput, string> = async (data) => {
         return { error: "Unauthorized" };
     }
 
-    const path =
-        client.role === "USER"
-            ? `/personal/${client.clientId}`
-            : `/organization/${client.clientId}`;
+    const path = `/${PATH[client.role]}/${client.clientId}`;
     const settingsUrl = absoluteUrl(path);
 
     let url = "";

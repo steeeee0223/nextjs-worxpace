@@ -1,19 +1,17 @@
 import { NextResponse } from "next/server";
-import { auth } from "@clerk/nextjs";
 
-import { fetchCardById } from "@/lib";
+import { UnauthorizedError, fetchCardById, fetchClient } from "@/lib";
 
 type Params = { params: { cardId: string } };
 
 export async function GET(req: Request, { params: { cardId } }: Params) {
     try {
-        const { userId, orgId } = auth();
-        if (!userId || !orgId)
-            return new NextResponse("Unauthorized", { status: 401 });
-
-        const card = await fetchCardById(orgId, cardId);
+        const { clientId } = fetchClient();
+        const card = await fetchCardById(clientId, cardId);
         return NextResponse.json(card);
     } catch (error) {
+        if (error instanceof UnauthorizedError)
+            return new NextResponse("Unauthorized", { status: 401 });
         return new NextResponse("Internal Service Error", { status: 500 });
     }
 }

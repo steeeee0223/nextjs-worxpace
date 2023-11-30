@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
 import {
@@ -9,20 +8,26 @@ import {
     createAuditLog,
     createSafeAction,
     db,
+    fetchClient,
     fetchLastCard,
     fetchListById,
 } from "@/lib";
 import { CreateCard, type CreateCardInput } from "./schema";
 
 const handler: ActionHandler<CreateCardInput, Card> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let client;
+    try {
+        client = fetchClient();
+    } catch (error) {
+        return { error: "Unauthorized" };
+    }
 
+    const { clientId, role } = client;
     const { title, boardId, listId } = data;
     let card;
 
     try {
-        const list = await fetchListById(orgId, boardId, listId);
+        const list = await fetchListById(clientId, boardId, listId);
         if (!list) return { error: "List not found" };
 
         const lastCard = await fetchLastCard(listId);

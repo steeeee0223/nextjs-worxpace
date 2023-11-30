@@ -19,14 +19,16 @@ type Image {
 }
 
 model Board {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  orgId String @db.String
-  title String
-  image Image?
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  clientId String
+  title    String
+  image    Image?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   List      List[]
+
+  @@index([clientId])
 }
 
 model List {
@@ -81,13 +83,15 @@ type Entity {
 
 model AuditLog {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  orgId     String
   user      User
+  orgId     String?
+  role      ROLE
   action    ACTION
   entity    Entity
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+  @@index([role, user.userId], map: "role_user_id")
   @@index([entity.entityId])
 }
 

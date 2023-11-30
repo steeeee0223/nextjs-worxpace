@@ -1,7 +1,8 @@
 import { PropsWithChildren } from "react";
+
 import { Sidebar } from "../_component";
 
-const OrganizationLayout = ({ children }: PropsWithChildren) => {
+const RoleLayout = ({ children }: PropsWithChildren) => {
     return (
         <main className="pt-20 md:pt-20 px-4 max-w-6xl 2xl:max-w-screen-xl mx-auto">
             <div className="flex gap-x-7">
@@ -14,4 +15,4 @@ const OrganizationLayout = ({ children }: PropsWithChildren) => {
     );
 };
 
-export default OrganizationLayout;
+export default RoleLayout;

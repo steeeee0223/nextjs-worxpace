@@ -1,24 +1,25 @@
 import { List } from "@prisma/client";
+
 import { ListWithCards } from "@/lib/types";
 import { db } from "./config";
 
 export const fetchLists = async (
-    orgId: string,
+    clientId: string,
     boardId: string
 ): Promise<ListWithCards[]> =>
     await db.list.findMany({
-        where: { boardId: boardId, board: { orgId } },
+        where: { boardId, board: { clientId } },
         include: { cards: { orderBy: { order: "asc" } } },
         orderBy: { order: "asc" },
     });
 
 export const fetchListById = async (
-    orgId: string,
+    clientId: string,
     boardId: string,
     id: string
 ): Promise<ListWithCards | null> =>
     await db.list.findUnique({
-        where: { id, boardId, board: { orgId } },
+        where: { id, boardId, board: { clientId } },
         include: { cards: true },
     });
 

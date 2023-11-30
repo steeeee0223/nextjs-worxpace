@@ -1,6 +1,5 @@
 "use server";
 
-import { auth } from "@clerk/nextjs";
 import { List } from "@prisma/client";
 
 import {
@@ -9,19 +8,25 @@ import {
     createSafeAction,
     db,
     fetchBoardById,
+    fetchClient,
     fetchLastList,
 } from "@/lib";
 import { CreateList, type CreateListInput } from "./schema";
 
 const handler: ActionHandler<CreateListInput, List> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let client;
+    try {
+        client = fetchClient();
+    } catch (error) {
+        return { error: "Unauthorized" };
+    }
 
+    const { clientId } = client;
     const { title, boardId } = data;
     let list;
 
     try {
-        const board = await fetchBoardById(orgId, boardId);
+        const board = await fetchBoardById(clientId, boardId);
         if (!board) return { error: "Board not found." };
 
         const lastList = await fetchLastList(boardId);

@@ -1,22 +1,32 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
-import { ActionHandler, createAuditLog, createSafeAction, db } from "@/lib";
+import {
+    ActionHandler,
+    createAuditLog,
+    createSafeAction,
+    db,
+    fetchClient,
+} from "@/lib";
 import { UpdateCard, type UpdateCardInput } from "./schema";
 
 const handler: ActionHandler<UpdateCardInput, Card> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let client;
+    try {
+        client = fetchClient();
+    } catch (error) {
+        return { error: "Unauthorized" };
+    }
 
+    const { clientId } = client;
     const { id, boardId, ...info } = data;
     let card;
 
     try {
         card = await db.card.update({
-            where: { id, list: { board: { orgId } } },
+            where: { id, list: { board: { clientId } } },
             data: info,
         });
 

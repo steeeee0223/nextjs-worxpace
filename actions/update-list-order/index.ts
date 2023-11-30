@@ -1,23 +1,27 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs";
 import { List } from "@prisma/client";
 
-import { ActionHandler, createSafeAction, db } from "@/lib";
+import { ActionHandler, createSafeAction, db, fetchClient } from "@/lib";
 import { UpdateListOrder, type UpdateListOrderInput } from "./schema";
 
 const handler: ActionHandler<UpdateListOrderInput, List[]> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let client;
+    try {
+        client = fetchClient();
+    } catch (error) {
+        return { error: "Unauthorized" };
+    }
 
+    const { clientId } = client;
     const { items, boardId } = data;
     let lists;
 
     try {
         const transaction = items.map(({ id, order }) =>
             db.list.update({
-                where: { id, board: { orgId } },
+                where: { id, board: { clientId } },
                 data: { order },
             })
         );

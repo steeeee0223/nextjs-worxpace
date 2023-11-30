@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs";
 import { List } from "@prisma/client";
 
 import {
@@ -9,19 +8,25 @@ import {
     createAuditLog,
     createSafeAction,
     db,
+    fetchClient,
     fetchLastList,
     fetchListById,
 } from "@/lib";
 import { CopyList, type CopyListInput } from "./schema";
 
 const handler: ActionHandler<CopyListInput, List> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let client;
+    try {
+        client = fetchClient();
+    } catch (error) {
+        return { error: "Unauthorized" };
+    }
 
+    const { clientId, role } = client;
     const { id, boardId } = data;
     let list;
     try {
-        const listToCopy = await fetchListById(orgId, boardId, id);
+        const listToCopy = await fetchListById(clientId, boardId, id);
         if (!listToCopy) return { error: "List not found." };
 
         const lastList = await fetchLastList(boardId);

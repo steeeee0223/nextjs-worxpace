@@ -1,12 +1,13 @@
 import { Card } from "@prisma/client";
-import { db } from "@/lib/db/config";
+
+import { db } from "./config";
 
 export const fetchCardById = async (
-    orgId: string,
+    clientId: string,
     cardId: string
 ): Promise<Card | null> =>
     await db.card.findUnique({
-        where: { id: cardId, list: { board: { orgId } } },
+        where: { id: cardId, list: { board: { clientId } } },
         include: { list: { select: { title: true } } },
     });
 

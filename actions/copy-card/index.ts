@@ -1,7 +1,6 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs";
 import { Card } from "@prisma/client";
 
 import {
@@ -10,19 +9,25 @@ import {
     createSafeAction,
     db,
     fetchCardById,
+    fetchClient,
     fetchLastCard,
 } from "@/lib";
 import { CopyCard, type CopyCardInput } from "./schema";
 
 const handler: ActionHandler<CopyCardInput, Card> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let client;
+    try {
+        client = fetchClient();
+    } catch (error) {
+        return { error: "Unauthorized" };
+    }
 
+    const { clientId } = client;
     const { id, boardId } = data;
     let card;
 
     try {
-        const cardToCopy = await fetchCardById(orgId, id);
+        const cardToCopy = await fetchCardById(clientId, id);
         if (!cardToCopy) return { error: "Card not found." };
 
         const { title, description, listId } = cardToCopy;

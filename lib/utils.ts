@@ -28,12 +28,18 @@ export function reorder<T>(list: T[], start: number, end: number): T[] {
     return result;
 }
 
+export class UnauthorizedError extends Error {
+    constructor() {
+        super("Unauthorized");
+    }
+}
+
 /**
  * Utility for authorization
  */
 export function fetchClient(): Client {
     const { userId, orgId } = auth();
-    if (!userId && !orgId) throw new Error("Unauthorized");
+    if (!userId && !orgId) throw new UnauthorizedError();
     return orgId
         ? { role: "ORG", clientId: orgId }
         : { role: "USER", clientId: userId };

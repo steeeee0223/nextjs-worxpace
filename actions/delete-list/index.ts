@@ -1,21 +1,33 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { auth } from "@clerk/nextjs";
 import { List } from "@prisma/client";
 
-import { ActionHandler, createAuditLog, createSafeAction, db } from "@/lib";
+import {
+    ActionHandler,
+    createAuditLog,
+    createSafeAction,
+    db,
+    fetchClient,
+} from "@/lib";
 import { DeleteList, type DeleteListInput } from "./schema";
 
 const handler: ActionHandler<DeleteListInput, List> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let client;
+    try {
+        client = fetchClient();
+    } catch (error) {
+        return { error: "Unauthorized" };
+    }
+    const { clientId } = client;
 
     const { id, boardId } = data;
     let list;
 
     try {
-        list = await db.list.delete({ where: { ...data, board: { orgId } } });
+        list = await db.list.delete({
+            where: { ...data, board: { clientId } },
+        });
 
         await createAuditLog(
             { entityId: id, title: list.title, type: "LIST" },

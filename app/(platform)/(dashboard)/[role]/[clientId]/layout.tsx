@@ -12,8 +12,9 @@ export async function generateMetadata() {
     return { title: startCase(orgSlug || "organization") };
 }
 
-const OrganizationIdLayout = async ({ children }: PropsWithChildren) => {
+const ClientIdLayout = async ({ children }: PropsWithChildren) => {
     const isPro = await checkSubscription();
+
     return (
         <div className="w-full mb-20">
             <OrgControl />
@@ -24,4 +25,4 @@ const OrganizationIdLayout = async ({ children }: PropsWithChildren) => {
     );
 };
 
-export default OrganizationIdLayout;
+export default ClientIdLayout;
