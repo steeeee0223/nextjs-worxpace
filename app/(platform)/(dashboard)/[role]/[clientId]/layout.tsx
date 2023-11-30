@@ -5,7 +5,7 @@ import { auth } from "@clerk/nextjs";
 import { Separator } from "@/components/ui";
 import { checkSubscription } from "@/lib";
 
-import { Info, OrgControl } from "./_components";
+import { Info, Control } from "./_components";
 
 export async function generateMetadata() {
     const { orgSlug } = auth();
@@ -17,7 +17,7 @@ const ClientIdLayout = async ({ children }: PropsWithChildren) => {
 
     return (
         <div className="w-full mb-20">
-            <OrgControl />
+            <Control />
             <Info isPro={isPro} />
             <Separator className="my-4" />
             {children}
