@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { redirect, useParams } from "next/navigation";
 import { useOrganizationList } from "@clerk/nextjs";
 
-const OrgControl = () => {
+const Control = () => {
     const params = useParams();
     const { setActive } = useOrganizationList();
 
@@ -13,11 +13,13 @@ const OrgControl = () => {
 
     useEffect(() => {
         if (!setActive) return;
-        if (params.role === "organization")
-            setActive({ organization: params.clientId as string });
+
+        const organization =
+            params.role === "organization" ? (params.clientId as string) : null;
+        setActive({ organization });
     }, [setActive, params.clientId, params.role]);
 
     return null;
 };
 
-export default OrgControl;
+export default Control;
