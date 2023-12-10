@@ -19,3 +19,6 @@ export * from "./update-card-order";
 
 /** Stripe API */
 export * from "./stripe-redirect";
+
+/** Documents */
+export * from "./create-document";
