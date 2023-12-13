@@ -16,4 +16,5 @@ export * from "./tooltip";
 /** Custom */
 export * from "./activity-item";
 export * from "./hint";
+export * from "./item";
 export * from "./mode-toggle";

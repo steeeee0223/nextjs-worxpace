@@ -42,7 +42,7 @@ const handler: ActionHandler<CreateDocumentInput, Document> = async (data) => {
         return { error: "Failed to create document." };
     }
 
-    revalidatePath(`documents/`);
+    revalidatePath(`/documents`);
     return { data: document };
 };
 

@@ -3,26 +3,13 @@
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import { PlusCircle } from "lucide-react";
-import { toast } from "sonner";
 
-import { createDocument } from "@/actions";
 import { Button } from "@/components/ui";
 import { theme } from "@/constants/theme";
-import { useAction } from "@/hooks";
 import { cn } from "@/lib";
 
 const Documents = () => {
     const { user } = useUser();
-    const { execute } = useAction(createDocument, {
-        onSuccess: ({ title }) => toast.success(`Document Created: ${title}`),
-        onError: (e) => toast.error(e),
-    });
-
-    const onSubmit = (formData: FormData) => {
-        const title = "Untitled";
-        const parentId = undefined;
-        execute({ title, parentId });
-    };
 
     return (
         <div
@@ -48,12 +35,10 @@ const Documents = () => {
             <h2 className="text-lg font-medium">
                 Welcome to {user?.firstName}&apos;s WorXpace
             </h2>
-            <form action={onSubmit}>
-                <Button type="submit">
-                    <PlusCircle className={cn(theme.size.icon, "mr-2")} />
-                    Create a note
-                </Button>
-            </form>
+            <Button>
+                <PlusCircle className={cn(theme.size.icon, "mr-2")} />
+                Create a note
+            </Button>
         </div>
     );
 };
