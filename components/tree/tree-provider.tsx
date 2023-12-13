@@ -19,11 +19,18 @@ export function TreeProvider<T extends TreeItem>({
     isItemActive,
     onClickItem,
 }: TreeProviderProps<T>) {
-    const [treeItems, dispatch] = useReducer<TreeReducer<T>>(
+    const $initialItems = {
+        ids: initialItems.map(({ id }) => id),
+        entities: Object.fromEntries(
+            initialItems.map((item) => [item.id, item])
+        ),
+    };
+    const [state, dispatch] = useReducer<TreeReducer<T>>(
         treeReducer,
-        initialItems
+        $initialItems
     );
 
+    const treeItems = Object.values(state.entities);
     const treeContextValues: TreeContextInterface<T> = {
         treeItems,
         getChildren: ($isArchived, $parentId?) =>

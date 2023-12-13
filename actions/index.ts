@@ -22,3 +22,4 @@ export * from "./stripe-redirect";
 
 /** Documents */
 export * from "./create-document";
+export * from "./delete-document";

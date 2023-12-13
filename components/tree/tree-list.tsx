@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { FileIcon } from "lucide-react";
 
-import { Item } from "@/components/ui";
+import { Item, ItemProps } from "@/components/ui";
 import { cn } from "@/lib";
 
 import { useTree } from "./tree-context";
@@ -13,12 +13,14 @@ interface TreeListProps {
     parentId?: string | null;
     level?: number;
     onAddItem?: (parentId?: string) => void;
+    onDeleteItem?: ItemProps["onDelete"];
 }
 
 export function TreeList<T extends TreeItem>({
     parentId,
     level = 0,
     onAddItem,
+    onDeleteItem,
 }: TreeListProps) {
     const { getChildren, isItemActive, onClickItem } = useTree<T>();
     const items = getChildren(false, parentId);
@@ -54,9 +56,15 @@ export function TreeList<T extends TreeItem>({
                         expanded={expanded[id]}
                         onExpand={() => onExpand(id)}
                         onCreate={() => onAddItem?.(id)}
+                        onDelete={onDeleteItem}
                     />
                     {expanded[id] && (
-                        <TreeList parentId={id} level={level + 1} />
+                        <TreeList
+                            parentId={id}
+                            level={level + 1}
+                            onAddItem={onAddItem}
+                            onDeleteItem={onDeleteItem}
+                        />
                     )}
                 </div>
             ))}

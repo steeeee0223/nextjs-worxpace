@@ -3,26 +3,40 @@
 import { Document } from "@prisma/client";
 import { toast } from "sonner";
 
-import { createDocument } from "@/actions";
+import { createDocument, deleteDocument } from "@/actions";
 import { TreeList, useTreeAction } from "@/components/tree";
 import { useAction } from "@/hooks";
 
 const Docs = TreeList<Document>;
 const DocItems = () => {
     const { dispatch } = useTreeAction<Document>();
+    const onError = (e: string) => toast.error(e);
 
-    const { execute } = useAction(createDocument, {
+    /** Create */
+    const { execute: create } = useAction(createDocument, {
         onSuccess: (data) => {
             toast.success(`Document Created: ${data.title}`);
             dispatch({ type: "add", payload: [data] });
         },
-        onError: (e) => toast.error(e),
+        onError,
+    });
+    /** Archive */
+    const { execute: archive } = useAction(deleteDocument, {
+        onSuccess: ({ document, deletedIds }) => {
+            toast.success(`Document "${document.title}" Moved to Trash`);
+            /** @todo dispatch `archive` action */
+            dispatch({ type: "archive", payload: deletedIds });
+        },
+        onError,
     });
 
-    const handleCreate = (parentId?: string) =>
-        execute({ title: "Untitled", parentId });
-
-    return <Docs parentId={null} onAddItem={handleCreate} />;
+    return (
+        <Docs
+            parentId={null}
+            onAddItem={(parentId) => create({ title: "Untitled", parentId })}
+            onDeleteItem={(id) => archive({ id })}
+        />
+    );
 };
 
 export default DocItems;

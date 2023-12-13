@@ -1,12 +1,27 @@
 "use client";
 
-import { ChevronDown, ChevronRight, LucideIcon, Plus } from "lucide-react";
+import { MouseEvent } from "react";
+import { useUser } from "@clerk/nextjs";
+import {
+    ChevronDown,
+    ChevronRight,
+    LucideIcon,
+    MoreHorizontal,
+    Plus,
+    Trash,
+} from "lucide-react";
 
 import { cn } from "@/lib";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+    Skeleton,
+} from "@/components/ui";
 import { theme } from "@/constants/theme";
 import { SPECIAL_KEYS } from "@/constants/keyboard";
-import { Skeleton } from "@/components/ui";
-import { MouseEvent } from "react";
 
 export interface ItemProps {
     label: string;
@@ -20,6 +35,7 @@ export interface ItemProps {
     onClick: () => void;
     onExpand?: () => void;
     onCreate?: () => void;
+    onDelete?: (itemId: string) => void;
 }
 
 export const Item = ({
@@ -34,7 +50,10 @@ export const Item = ({
     onClick,
     onExpand,
     onCreate,
+    onDelete,
 }: ItemProps) => {
+    const { user } = useUser();
+
     const ExpandIcon = expanded ? ChevronDown : ChevronRight;
     const handleExpand = (e: MouseEvent<HTMLDivElement>) => {
         e.stopPropagation();
@@ -44,6 +63,10 @@ export const Item = ({
         e.stopPropagation();
         onCreate?.();
         if (!expanded) onExpand?.();
+    };
+    const handleDelete = (e: MouseEvent<HTMLDivElement>) => {
+        e.stopPropagation();
+        if (id) onDelete?.(id);
     };
 
     return (
@@ -90,6 +113,41 @@ export const Item = ({
             )}
             {!!id && (
                 <div className={cn(theme.flex.gap2, "ml-auto")}>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger
+                            onClick={(e) => e.stopPropagation()}
+                            asChild
+                        >
+                            <div
+                                role="button"
+                                className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+                            >
+                                <MoreHorizontal
+                                    className={cn(
+                                        theme.size.icon,
+                                        "text-muted-foreground"
+                                    )}
+                                />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent
+                            className="w-60 z-[99999]"
+                            align="start"
+                            side="right"
+                            forceMount
+                        >
+                            <DropdownMenuItem onClick={handleDelete}>
+                                <Trash
+                                    className={cn(theme.size.icon, "mr-2")}
+                                />
+                                Delete
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <div className="text-xs text-muted-foreground p-2">
+                                Last edited by: {user?.fullName}
+                            </div>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                     <div
                         role="button"
                         onClick={handleCreate}
