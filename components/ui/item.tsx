@@ -75,14 +75,18 @@ export const Item = ({
             role="button"
             style={{ paddingLeft: `${((level ?? 0) + 1) * 12}px` }}
             className={cn(
-                "group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 flex items-center text-muted-foreground font-medium",
+                theme.flex.center,
+                "group min-h-[27px] text-sm py-1 pr-3 w-full hover:bg-primary/5 text-muted-foreground font-medium",
                 active && "bg-primary/5 text-primary"
             )}
         >
             {!!id && (
                 <div
                     role="button"
-                    className="h-full rounded-sm hover:bg-neutral-300 dark:bg-neutral-600 mr-1"
+                    className={cn(
+                        theme.bg.hover,
+                        "h-full rounded-sm mr-1 p-0.5"
+                    )}
                     onClick={handleExpand}
                 >
                     <ExpandIcon
@@ -112,7 +116,7 @@ export const Item = ({
                 </kbd>
             )}
             {!!id && (
-                <div className={cn(theme.flex.gap2, "ml-auto")}>
+                <div className={cn(theme.flex.gap1, "ml-auto p-0.5")}>
                     <DropdownMenu>
                         <DropdownMenuTrigger
                             onClick={(e) => e.stopPropagation()}
@@ -120,7 +124,10 @@ export const Item = ({
                         >
                             <div
                                 role="button"
-                                className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+                                className={cn(
+                                    theme.bg.hover,
+                                    "opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm p-0.5"
+                                )}
                             >
                                 <MoreHorizontal
                                     className={cn(
@@ -151,7 +158,10 @@ export const Item = ({
                     <div
                         role="button"
                         onClick={handleCreate}
-                        className="opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm hover:bg-neutral-300 dark:hover:bg-neutral-600"
+                        className={cn(
+                            theme.bg.hover,
+                            "opacity-0 group-hover:opacity-100 h-full ml-auto rounded-sm p-0.5"
+                        )}
                     >
                         <Plus
                             className={cn(

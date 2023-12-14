@@ -88,11 +88,11 @@ const TrashBox = () => {
                         )}
                     >
                         <span className="truncate pl-2">{title}</span>
-                        <div className={cn(theme.flex.gap2, "p-2")}>
+                        <div className={cn(theme.flex.gap1, "p-1")}>
                             <div
                                 onClick={(e) => onRestore(e, id)}
                                 role="button"
-                                className="rounded-sm hover:bg-neutral-200"
+                                className={cn(theme.bg.hover, "rounded-sm p-1")}
                             >
                                 <Undo
                                     className={cn(
@@ -104,7 +104,10 @@ const TrashBox = () => {
                             <ConfirmModal onConfirm={() => onRemove(id)}>
                                 <div
                                     role="button"
-                                    className="rounded-sm hover:bg-neutral-200"
+                                    className={cn(
+                                        theme.bg.hover,
+                                        "rounded-sm p-1"
+                                    )}
                                 >
                                     <Trash
                                         className={cn(
