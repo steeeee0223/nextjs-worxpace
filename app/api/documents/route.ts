@@ -1,11 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 
-import { UnauthorizedError, fetchClient, fetchAllDocuments } from "@/lib";
+import {
+    UnauthorizedError,
+    fetchClient,
+    fetchAllDocuments,
+    parseBool,
+} from "@/lib";
 
-export async function GET(req: Request) {
+export async function GET(req: NextRequest) {
+    const params = req.nextUrl.searchParams;
     try {
         const { clientId } = fetchClient();
-        const documents = await fetchAllDocuments(clientId);
+        const archived = parseBool(params.get("archived"));
+        const documents = await fetchAllDocuments(clientId, archived);
         return NextResponse.json(documents);
     } catch (error) {
         if (error instanceof UnauthorizedError)

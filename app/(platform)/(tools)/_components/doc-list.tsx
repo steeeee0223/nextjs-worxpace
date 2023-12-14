@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { TreeProvider } from "@/components/tree";
 import { Item, Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
-import { useFetch } from "@/hooks";
+import { useFetch, useSearch } from "@/hooks";
 import { fetchUrl } from "@/lib";
 
 import AddItem from "./add-item";
@@ -23,6 +23,7 @@ interface DocListProps {
 const DocList = ({ isMobile }: DocListProps) => {
     const router = useRouter();
     const params = useParams();
+    const search = useSearch();
     const onClickItem = (id: string) => router.push(`/documents/${id}`);
     const isItemActive = (id: string) => params.documentId === id;
 
@@ -64,7 +65,7 @@ const DocList = ({ isMobile }: DocListProps) => {
                 <Item
                     label="Search"
                     icon={Search}
-                    onClick={() => {}}
+                    onClick={search.onOpen}
                     shortcut="⌘K"
                 />
                 <Item

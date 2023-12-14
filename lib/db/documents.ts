@@ -6,8 +6,10 @@ import { Modified } from "@/components/tree";
 import { db } from "./config";
 
 export const fetchAllDocuments = async (
-    clientId: string
-): Promise<Document[]> => await db.document.findMany({ where: { clientId } });
+    clientId: string,
+    isArchived?: boolean
+): Promise<Document[]> =>
+    await db.document.findMany({ where: { clientId, isArchived } });
 
 export const fetchDocuments = async (
     clientId: string,

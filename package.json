@@ -8,8 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "--plop--": "-----",
+    "-----": "-----",
     "gen:action": "plop action",
+    "gen:shadcn": "pnpm dlx shadcn-ui@latest add",
     "--prisma--": "-----",
     "dev:prisma": "prisma studio",
     "build:prisma": "prisma format && prisma db push && prisma generate"
@@ -31,6 +32,7 @@
     "@tanstack/react-query": "^5.8.4",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.292.0",

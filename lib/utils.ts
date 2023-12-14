@@ -51,3 +51,19 @@ export function fetchClient(): Client {
 export function absoluteUrl(path: string): string {
     return `${process.env.NEXT_PUBLIC_APP_URL}${path}`;
 }
+
+/**
+ * Utility for parsing boolean params in url
+ */
+export function parseBool(x?: string | null): boolean | undefined {
+    switch (true) {
+        case x === null || x === undefined:
+            return undefined;
+        case x === "true":
+            return true;
+        case x === "false":
+            return false;
+        default:
+            throw new Error(`Invalid argument: ${x}`);
+    }
+}
