@@ -172,10 +172,10 @@ Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
             style={{
                 paddingLeft: level ? `${level * 12 + 25}px` : "12px",
             }}
-            className="flex gap-x-2 py-[3px]"
+            className="flex gap-x-2 py-1.5 px-2"
         >
-            <Skeleton className={theme.size.icon} />
-            <Skeleton className="h-4 w-[30%]" />
+            <Skeleton className={cn(theme.size.icon, "bg-primary/5")} />
+            <Skeleton className="h-4 w-full bg-primary/5" />
         </div>
     );
 };
