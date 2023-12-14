@@ -1,5 +1,6 @@
 /** Shadcn UI */
 export * from "./accordion";
+export * from "./alert-dialog";
 export * from "./avatar";
 export * from "./button";
 export * from "./dialog";
@@ -18,3 +19,4 @@ export * from "./activity-item";
 export * from "./hint";
 export * from "./item";
 export * from "./mode-toggle";
+export * from "./spinner";

@@ -33,7 +33,8 @@ export function TreeProvider<T extends TreeItem>({
     const treeItems = Object.values(state.entities);
     const treeContextValues: TreeContextInterface<T> = {
         treeItems,
-        getChildren: ($isArchived, $parentId?) =>
+        archivedItems: treeItems.filter(({ isArchived }) => isArchived),
+        getChildren: ($isArchived, $parentId) =>
             treeItems.filter(
                 ({ parentId, isArchived }) =>
                     $parentId === parentId && isArchived === $isArchived

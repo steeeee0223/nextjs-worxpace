@@ -6,14 +6,14 @@ import { Document } from "@prisma/client";
 import { Modified } from "@/components/tree";
 import {
     ActionHandler,
+    archive,
     createAuditLog,
     createSafeAction,
     fetchClient,
-    remove,
 } from "@/lib";
-import { DeleteDocument, type DeleteDocumentInput } from "./schema";
+import { ArchiveDocument, type ArchiveDocumentInput } from "./schema";
 
-const handler: ActionHandler<DeleteDocumentInput, Modified<Document>> = async (
+const handler: ActionHandler<ArchiveDocumentInput, Modified<Document>> = async (
     data
 ) => {
     let client;
@@ -25,7 +25,7 @@ const handler: ActionHandler<DeleteDocumentInput, Modified<Document>> = async (
 
     let result;
     try {
-        result = await remove(client.clientId, data.id);
+        result = await archive(client.clientId, data.id);
         /** Activity Log */
         await createAuditLog(
             {
@@ -37,11 +37,11 @@ const handler: ActionHandler<DeleteDocumentInput, Modified<Document>> = async (
         );
     } catch (error) {
         console.log(`ERROR`, error);
-        return { error: "Failed to delete document." };
+        return { error: "Failed to archive document." };
     }
 
     revalidatePath(`/documents`);
     return { data: result };
 };
 
-export const deleteDocument = createSafeAction(DeleteDocument, handler);
+export const archiveDocument = createSafeAction(ArchiveDocument, handler);

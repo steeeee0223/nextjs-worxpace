@@ -21,5 +21,7 @@ export * from "./update-card-order";
 export * from "./stripe-redirect";
 
 /** Documents */
+export * from "./archive-document";
 export * from "./create-document";
 export * from "./delete-document";
+export * from "./restore-document";

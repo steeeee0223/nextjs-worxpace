@@ -5,7 +5,8 @@ import type { TreeItem } from "./types";
 
 export interface TreeContextInterface<T extends TreeItem> {
     treeItems: T[];
-    getChildren: (isArchived: boolean, parentId?: string | null) => T[];
+    archivedItems: T[];
+    getChildren: (isArchived: boolean, parentId: string | null) => T[];
     isItemActive: (id: string) => boolean;
     onClickItem: (id: string) => void;
 }

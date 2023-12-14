@@ -32,7 +32,7 @@ export interface ItemProps {
     expanded?: boolean;
     level?: number;
     shortcut?: string;
-    onClick: () => void;
+    onClick?: () => void;
     onExpand?: () => void;
     onCreate?: () => void;
     onDelete?: (itemId: string) => void;

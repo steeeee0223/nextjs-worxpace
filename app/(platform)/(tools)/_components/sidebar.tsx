@@ -54,7 +54,7 @@ export const Sidebar = () => {
                 <div>
                     <UserItem />
                 </div>
-                <DocList />
+                <DocList isMobile={isMobile} />
                 <div
                     onMouseDown={handleMouseDown}
                     onClick={resetWidth}

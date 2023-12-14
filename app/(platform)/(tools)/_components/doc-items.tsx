@@ -3,7 +3,7 @@
 import { Document } from "@prisma/client";
 import { toast } from "sonner";
 
-import { createDocument, deleteDocument } from "@/actions";
+import { createDocument, archiveDocument } from "@/actions";
 import { TreeList, useTreeAction } from "@/components/tree";
 import { useAction } from "@/hooks";
 
@@ -21,11 +21,10 @@ const DocItems = () => {
         onError,
     });
     /** Archive */
-    const { execute: archive } = useAction(deleteDocument, {
-        onSuccess: ({ document, deletedIds }) => {
-            toast.success(`Document "${document.title}" Moved to Trash`);
-            /** @todo dispatch `archive` action */
-            dispatch({ type: "archive", payload: deletedIds });
+    const { execute: archive } = useAction(archiveDocument, {
+        onSuccess: (data) => {
+            toast.success(`Document "${data.item.title}" Moved to Trash`);
+            dispatch({ type: "archive", payload: data });
         },
         onError,
     });

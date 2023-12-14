@@ -9,11 +9,11 @@ import {
     createAuditLog,
     createSafeAction,
     fetchClient,
-    remove,
+    restore,
 } from "@/lib";
-import { DeleteDocument, type DeleteDocumentInput } from "./schema";
+import { RestoreDocument, type RestoreDocumentInput } from "./schema";
 
-const handler: ActionHandler<DeleteDocumentInput, Modified<Document>> = async (
+const handler: ActionHandler<RestoreDocumentInput, Modified<Document>> = async (
     data
 ) => {
     let client;
@@ -25,7 +25,7 @@ const handler: ActionHandler<DeleteDocumentInput, Modified<Document>> = async (
 
     let result;
     try {
-        result = await remove(client.clientId, data.id);
+        result = await restore(client.clientId, data.id);
         /** Activity Log */
         await createAuditLog(
             {
@@ -33,15 +33,15 @@ const handler: ActionHandler<DeleteDocumentInput, Modified<Document>> = async (
                 entityId: data.id,
                 type: "DOCUMENT",
             },
-            "DELETE"
+            "UPDATE"
         );
     } catch (error) {
         console.log(`ERROR`, error);
-        return { error: "Failed to delete document." };
+        return { error: "Failed to restore document." };
     }
 
     revalidatePath(`/documents`);
     return { data: result };
 };
 
-export const deleteDocument = createSafeAction(DeleteDocument, handler);
+export const restoreDocument = createSafeAction(RestoreDocument, handler);

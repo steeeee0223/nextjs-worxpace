@@ -10,14 +10,14 @@ import { useTree } from "./tree-context";
 import { TreeItem } from "./types";
 
 interface TreeListProps {
-    parentId?: string | null;
+    parentId: string | null;
     level?: number;
     onAddItem?: (parentId?: string) => void;
     onDeleteItem?: ItemProps["onDelete"];
 }
 
 export function TreeList<T extends TreeItem>({
-    parentId,
+    parentId = null,
     level = 0,
     onAddItem,
     onDeleteItem,
