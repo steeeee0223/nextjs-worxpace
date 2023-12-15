@@ -2,6 +2,7 @@ import { auth } from "@clerk/nextjs";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
+import { UnauthorizedError } from "@/lib/errors";
 import { Client } from "@/lib/types";
 
 /**
@@ -26,12 +27,6 @@ export function reorder<T>(list: T[], start: number, end: number): T[] {
     const [removed] = result.splice(start, 1);
     result.splice(end, 0, removed);
     return result;
-}
-
-export class UnauthorizedError extends Error {
-    constructor() {
-        super("Unauthorized");
-    }
 }
 
 /**

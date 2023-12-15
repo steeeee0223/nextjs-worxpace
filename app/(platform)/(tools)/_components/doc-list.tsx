@@ -1,20 +1,16 @@
 "use client";
 
 import { Search, Settings, Trash } from "lucide-react";
-import { useParams, useRouter } from "next/navigation";
 import { Document } from "@prisma/client";
-import { toast } from "sonner";
 
-import { TreeProvider } from "@/components/tree";
+import { useTree } from "@/components/tree";
 import { Item, Popover, PopoverContent, PopoverTrigger } from "@/components/ui";
-import { useFetch, useSearch, useSettings } from "@/hooks";
-import { fetchUrl } from "@/lib";
+import { useSearch, useSettings } from "@/hooks";
 
 import AddItem from "./add-item";
 import DocItems from "./doc-items";
 import TrashBox from "./trash-box";
-
-const DocListProvider = TreeProvider<Document>;
+import { UserItem } from "./user-item";
 
 interface DocListProps {
     isMobile?: boolean;
@@ -25,45 +21,12 @@ const DocList = ({ isMobile }: DocListProps) => {
     const search = useSearch();
     const settings = useSettings();
     /** Docs */
-    const router = useRouter();
-    const params = useParams();
-    const onClickItem = (id: string) => router.push(`/documents/${id}`);
-    const isItemActive = (id: string) => params.documentId === id;
-    /** Fetch */
-    const fetchChildren = async () => {
-        try {
-            const data: Document[] = await fetchUrl(`/api/documents/`);
-            return { data };
-        } catch (error) {
-            return { error: String(error) };
-        }
-    };
-    const { data, isLoading } = useFetch<Document[]>(fetchChildren, {
-        onError: (e) => toast.error(`Error occurred while fetching documents`),
-    });
+    const { isLoading } = useTree<Document>();
 
-    if (!data || isLoading)
-        return (
-            <>
-                <div>
-                    {Array.from([0, 0, 0]).map((level, i) => (
-                        <Item.Skeleton key={i} level={level} />
-                    ))}
-                </div>
-                <div className="mt-4">
-                    {Array.from([0, 1, 1]).map((level, i) => (
-                        <Item.Skeleton key={i} level={level} />
-                    ))}
-                </div>
-            </>
-        );
     return (
-        <DocListProvider
-            initialItems={data}
-            onClickItem={onClickItem}
-            isItemActive={isItemActive}
-        >
+        <>
             <div>
+                <UserItem />
                 <Item
                     label="Search"
                     icon={Search}
@@ -79,7 +42,17 @@ const DocList = ({ isMobile }: DocListProps) => {
                 <AddItem />
             </div>
             <div className="mt-4">
-                <DocItems />
+                {isLoading ? (
+                    <>
+                        <div className="mt-4">
+                            {Array.from([0, 1, 0, 1, 1]).map((level, i) => (
+                                <Item.Skeleton key={i} level={level} />
+                            ))}
+                        </div>
+                    </>
+                ) : (
+                    <DocItems />
+                )}
                 <Popover>
                     <PopoverTrigger className="w-full mt-4">
                         <Item label="Trash" icon={Trash} />
@@ -92,7 +65,7 @@ const DocList = ({ isMobile }: DocListProps) => {
                     </PopoverContent>
                 </Popover>
             </div>
-        </DocListProvider>
+        </>
     );
 };
 

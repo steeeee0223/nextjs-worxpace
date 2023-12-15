@@ -4,6 +4,7 @@ import { createContext, useContext } from "react";
 import type { TreeItem } from "./types";
 
 export interface TreeContextInterface<T extends TreeItem> {
+    isLoading: boolean;
     treeItems: T[];
     archivedItems: T[];
     getChildren: (isArchived: boolean, parentId: string | null) => T[];

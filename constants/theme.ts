@@ -4,6 +4,7 @@ export const theme = {
         none: "bg-background dark:bg-none",
     },
     bg: {
+        navbar: "bg-background dark:bg-[#1F1F1F]",
         textArea: "bg-neutral-200 dark:bg-neutral-800",
         hover: "hover:bg-neutral-300 dark:hover:bg-neutral-600",
     },

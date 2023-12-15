@@ -20,6 +20,11 @@ export const fetchDocuments = async (
         orderBy: { createdAt: "desc" },
     });
 
+export const fetchDocumentById = async (
+    documentId: string
+): Promise<Document | null> =>
+    await db.document.findUnique({ where: { id: documentId } });
+
 type Action = "ARCHIVE" | "RESTORE";
 const UPDATE: Record<Action, Partial<Document>> = {
     ARCHIVE: { isArchived: true },
@@ -89,6 +94,16 @@ export const restore = async (
     return { item, ids: modifiedIds };
 };
 
+export const renameDocument = async (
+    clientId: string,
+    documentId: string,
+    title: string
+): Promise<Document> =>
+    await db.document.update({
+        where: { clientId, id: documentId },
+        data: { title },
+    });
+
 export const removeChildren = async (
     clientId: string,
     parentId: string | null,
@@ -114,10 +129,6 @@ export const remove = async (
 ): Promise<Modified<Document>> => {
     let item;
     let modifiedIds = [documentId];
-    /**
-     * @todo
-     * If the document has a parent, remove children form its parent
-     */
     /** Delete all its children */
     await removeChildren(clientId, documentId, (ids) =>
         modifiedIds.push(...ids)
