@@ -6,9 +6,11 @@ import { toast } from "sonner";
 import { createDocument, archiveDocument } from "@/actions";
 import { TreeList, useTreeAction } from "@/components/tree";
 import { useAction } from "@/hooks";
+import { useRouter } from "next/navigation";
 
 const Docs = TreeList<Document>;
 const DocItems = () => {
+    const router = useRouter();
     const { dispatch } = useTreeAction<Document>();
     const onError = (e: string) => toast.error(e);
 
@@ -23,8 +25,9 @@ const DocItems = () => {
     /** Archive */
     const { execute: archive } = useAction(archiveDocument, {
         onSuccess: (data) => {
-            toast.success(`Document "${data.item.title}" Moved to Trash`);
             dispatch({ type: "archive", payload: data });
+            toast.success(`Document "${data.item.title}" Moved to Trash`);
+            router.push(`/documents`);
         },
         onError,
     });

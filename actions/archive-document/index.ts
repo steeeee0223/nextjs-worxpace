@@ -40,7 +40,7 @@ const handler: ActionHandler<ArchiveDocumentInput, Modified<Document>> = async (
         return { error: "Failed to archive document." };
     }
 
-    revalidatePath(`/documents`);
+    revalidatePath(`/documents/${data.id}`);
     return { data: result };
 };
 

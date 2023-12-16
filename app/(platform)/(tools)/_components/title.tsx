@@ -69,7 +69,7 @@ const Title = ({ initialData }: TitleProps) => {
                     size="sm"
                     className="font-normal h-auto p-1"
                 >
-                    <span className="truncate">{title}</span>
+                    <span className="truncate">{initialData.title}</span>
                 </Button>
             )}
         </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { DependencyList, useEffect, useState } from "react";
 
 import { ActionState } from "@/lib/create-safe-action";
 
@@ -16,7 +16,8 @@ interface UseFetchResult<T> {
 
 export const useFetch = <T>(
     action: () => Promise<ActionState<{}, T>>,
-    options: UseFetchOptions<T>
+    options: UseFetchOptions<T>,
+    dependencies: DependencyList = []
 ): UseFetchResult<T> => {
     const [error, setError] = useState<string | undefined>(undefined);
     const [data, setData] = useState<T | undefined>(undefined);
@@ -44,7 +45,7 @@ export const useFetch = <T>(
 
     useEffect(() => {
         execute();
-    }, []);
+    }, dependencies);
 
     return { error, data, isLoading };
 };

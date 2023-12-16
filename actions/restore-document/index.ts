@@ -40,7 +40,7 @@ const handler: ActionHandler<RestoreDocumentInput, Modified<Document>> = async (
         return { error: "Failed to restore document." };
     }
 
-    revalidatePath(`/documents`);
+    revalidatePath(`/documents/${data.id}`);
     return { data: result };
 };
 

@@ -34,7 +34,7 @@ const handler: ActionHandler<RenameDocumentInput, Document> = async (data) => {
         return { error: "Failed to rename document." };
     }
 
-    revalidatePath(`/documents`);
+    revalidatePath(`/documents/${data.id}`);
     return { data: document };
 };
 

@@ -3,12 +3,14 @@
 import { useParams } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 import { Document } from "@prisma/client";
-import { useFetch } from "usehooks-ts";
 
 import { theme } from "@/constants/theme";
-import { cn } from "@/lib";
+import { useFetch } from "@/hooks";
+import { cn, fetchUrl } from "@/lib";
 
 import Title from "./title";
+import { Banner } from "./banner";
+import { Menu } from "./menu";
 
 interface NavbarProps {
     isCollapsed: boolean;
@@ -17,9 +19,17 @@ interface NavbarProps {
 
 const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
     const params = useParams();
-    const { data: document } = useFetch<Document>(
-        `/api/documents/${params.documentId}`
-    );
+    const fetchItem = async () => {
+        try {
+            const data: Document = await fetchUrl(
+                `/api/documents/${params.documentId}`
+            );
+            return { data };
+        } catch {
+            return { error: `Error occurred while fetching document` };
+        }
+    };
+    const { data: document } = useFetch<Document>(fetchItem, {}, [params]);
 
     if (document === undefined) {
         return (
@@ -57,8 +67,12 @@ const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
                     className={cn(theme.flex.center, "justify-between w-full")}
                 >
                     <Title initialData={document} />
+                    <div className={theme.flex.gap2}>
+                        <Menu documentId={document.id} />
+                    </div>
                 </div>
             </nav>
+            {document.isArchived && <Banner documentId={document.id} />}
         </>
     );
 };
