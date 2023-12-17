@@ -1,28 +1,24 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
+import { Document } from "@prisma/client";
+
 import {
     ActionHandler,
+    UnauthorizedError,
     createAuditLog,
     createSafeAction,
     db,
     fetchClient,
 } from "@/lib";
 import { CreateDocument, type CreateDocumentInput } from "./schema";
-import { revalidatePath } from "next/cache";
-import { Document } from "@prisma/client";
 
 const handler: ActionHandler<CreateDocumentInput, Document> = async (data) => {
-    let client;
-    try {
-        client = fetchClient();
-    } catch (error) {
-        return { error: "Unauthorized" };
-    }
-    const { clientId } = client;
+    let document;
     const { title, parentId } = data;
 
-    let document;
     try {
+        const { clientId } = fetchClient();
         document = await db.document.create({
             data: {
                 clientId,
@@ -38,6 +34,8 @@ const handler: ActionHandler<CreateDocumentInput, Document> = async (data) => {
             "CREATE"
         );
     } catch (error) {
+        if (error instanceof UnauthorizedError)
+            return { error: "Unauthorized" };
         console.log(`ERROR`, error);
         return { error: "Failed to create document." };
     }

@@ -6,6 +6,7 @@ import { Document } from "@prisma/client";
 import { Modified } from "@/components/tree";
 import {
     ActionHandler,
+    UnauthorizedError,
     createAuditLog,
     createSafeAction,
     fetchClient,
@@ -16,16 +17,11 @@ import { RestoreDocument, type RestoreDocumentInput } from "./schema";
 const handler: ActionHandler<RestoreDocumentInput, Modified<Document>> = async (
     data
 ) => {
-    let client;
-    try {
-        client = fetchClient();
-    } catch (error) {
-        return { error: "Unauthorized" };
-    }
-
     let result;
+
     try {
-        result = await restore(client.clientId, data.id);
+        const { clientId } = fetchClient();
+        result = await restore(clientId, data.id);
         /** Activity Log */
         await createAuditLog(
             {
@@ -36,6 +32,8 @@ const handler: ActionHandler<RestoreDocumentInput, Modified<Document>> = async (
             "UPDATE"
         );
     } catch (error) {
+        if (error instanceof UnauthorizedError)
+            return { error: "Unauthorized" };
         console.log(`ERROR`, error);
         return { error: "Failed to restore document." };
     }
