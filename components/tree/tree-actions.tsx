@@ -15,7 +15,7 @@ export type Modified<T extends TreeItem> = {
 export type TreeAction<T extends TreeItem> =
     | { type: "add" | "set"; payload: T[] }
     | { type: "archive" | "restore"; payload: Modified<T> }
-    | { type: "rename"; payload: T }
+    | { type: "update"; payload: T }
     | { type: "delete"; payload: string[] };
 
 export type TreeReducer<T extends TreeItem> = Reducer<Entity<T>, TreeAction<T>>;
@@ -31,7 +31,7 @@ export function treeReducer<T extends TreeItem>(
         case "set":
             payload.forEach((item) => (entities[item.id] = item));
             return { ids: Object.keys(entities), entities };
-        case "rename":
+        case "update":
             entities[payload.id] = payload;
             return { ids, entities };
         case "archive":

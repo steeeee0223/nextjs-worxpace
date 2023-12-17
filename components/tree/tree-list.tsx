@@ -43,13 +43,13 @@ export function TreeList<T extends TreeItem>({
             >
                 No pages inside
             </p>
-            {items.map(({ id, title }) => (
+            {items.map(({ id, title, icon }) => (
                 <div key={id}>
                     <Item
                         id={id}
                         label={title}
                         icon={FileIcon}
-                        // documentIcon={icon}
+                        documentIcon={icon}
                         onClick={() => onClickItem(id)}
                         active={isItemActive(id)}
                         level={level}

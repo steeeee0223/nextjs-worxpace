@@ -3,4 +3,5 @@ export type TreeItem = {
     title: string;
     parentId?: string | null;
     isArchived?: boolean;
+    icon?: string | null;
 };

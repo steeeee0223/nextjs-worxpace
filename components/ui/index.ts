@@ -18,6 +18,7 @@ export * from "./tooltip";
 /** Custom */
 export * from "./activity-item";
 export * from "./hint";
+export * from "./icon-picker";
 export * from "./item";
 export * from "./mode-toggle";
 export * from "./spinner";

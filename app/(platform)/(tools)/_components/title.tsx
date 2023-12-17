@@ -4,7 +4,7 @@ import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
 import { Document } from "@prisma/client";
 import { toast } from "sonner";
 
-import { renameDocument } from "@/actions";
+import { updateDocument } from "@/actions";
 import { useAction } from "@/hooks";
 import { Button, Input, Skeleton } from "@/components/ui";
 import { useTreeAction } from "@/components/tree";
@@ -33,9 +33,9 @@ const Title = ({ initialData }: TitleProps) => {
     const disableInput = () => setIsEditing(false);
     /** Action - Rename */
     const { dispatch } = useTreeAction<Document>();
-    const { execute: rename } = useAction(renameDocument, {
+    const { execute: update } = useAction(updateDocument, {
         onSuccess: (data) => {
-            dispatch({ type: "rename", payload: data });
+            dispatch({ type: "update", payload: data });
             toast.success(`Renamed document "${data.title}"`);
         },
     });
@@ -45,7 +45,7 @@ const Title = ({ initialData }: TitleProps) => {
     const onKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
             disableInput();
-            rename({ id: initialData.id, title });
+            update({ id: initialData.id, title, log: true });
         }
     };
 
@@ -60,14 +60,14 @@ const Title = ({ initialData }: TitleProps) => {
                     onChange={onChange}
                     onKeyDown={onKeyDown}
                     value={title}
-                    className="h-7 px-2 focus-visible:ring-transparent"
+                    className="h-7 ml-1 px-2 focus-visible:ring-transparent"
                 />
             ) : (
                 <Button
                     onClick={enableInput}
                     variant="ghost"
                     size="sm"
-                    className="font-normal h-auto p-1"
+                    className="font-normal h-auto ml-1 p-1"
                 >
                     <span className="truncate">{initialData.title}</span>
                 </Button>

@@ -24,5 +24,5 @@ export * from "./stripe-redirect";
 export * from "./archive-document";
 export * from "./create-document";
 export * from "./delete-document";
-export * from "./rename-document";
 export * from "./restore-document";
+export * from "./update-document";
