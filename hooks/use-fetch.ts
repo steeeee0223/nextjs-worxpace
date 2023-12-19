@@ -1,6 +1,8 @@
+"use client";
+
 import { DependencyList, useEffect, useState } from "react";
 
-import { ActionState } from "@/lib/create-safe-action";
+import { type ActionState } from "@/lib";
 
 interface UseFetchOptions<T> {
     onSuccess?: (data: T) => void;

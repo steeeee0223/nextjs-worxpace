@@ -3,15 +3,18 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 
 import { ModalProvider, QueryProvider } from "@/components/providers";
+import { EdgeStoreProvider } from "@/hooks";
 
 export default function PlatformLayout({ children }: PropsWithChildren) {
     return (
         <ClerkProvider>
-            <QueryProvider>
-                <Toaster />
-                <ModalProvider />
-                {children}
-            </QueryProvider>
+            <EdgeStoreProvider>
+                <QueryProvider>
+                    <Toaster />
+                    <ModalProvider />
+                    {children}
+                </QueryProvider>
+            </EdgeStoreProvider>
         </ClerkProvider>
     );
 }

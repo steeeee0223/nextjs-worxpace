@@ -13,12 +13,18 @@ export * from "./separator";
 export * from "./sheet";
 export * from "./skeleton";
 export * from "./textarea";
+export * from "./tabs";
 export * from "./tooltip";
 
 /** Custom */
 export * from "./activity-item";
+export * from "./cover";
+export * from "./cover-picker";
 export * from "./hint";
 export * from "./icon-picker";
 export * from "./item";
 export * from "./mode-toggle";
 export * from "./spinner";
+
+/** Edgestore */
+export * from "./single-image-dropzone";
