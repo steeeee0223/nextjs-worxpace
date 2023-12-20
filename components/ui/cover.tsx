@@ -3,7 +3,12 @@
 import Image from "next/image";
 import { ImageIcon, X } from "lucide-react";
 
-import { Button, type ButtonProps, CoverPicker } from "@/components/ui";
+import {
+    Button,
+    type ButtonProps,
+    CoverPicker,
+    Skeleton,
+} from "@/components/ui";
 import { theme } from "@/constants/theme";
 import { cn } from "@/lib";
 
@@ -37,7 +42,14 @@ export const Cover = ({
             )}
         >
             {!!url && (
-                <Image src={url} fill alt="Cover" className="object-cover" />
+                <Image
+                    src={url}
+                    fill
+                    sizes="100%"
+                    priority
+                    alt="Cover"
+                    className="object-cover"
+                />
             )}
             {url && !preview && (
                 <div
@@ -67,4 +79,8 @@ export const Cover = ({
             )}
         </div>
     );
+};
+
+Cover.Skeleton = function CoverSkeleton() {
+    return <Skeleton className="w-full h-[12vh]" />;
 };

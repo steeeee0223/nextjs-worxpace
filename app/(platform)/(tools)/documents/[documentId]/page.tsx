@@ -1,7 +1,8 @@
+import { Suspense } from "react";
 import { notFound, redirect } from "next/navigation";
 
 import { fetchClient, fetchDocumentById } from "@/lib";
-import Toolbar from "./_component/toolbar";
+import Toolbar, { ToolbarSkeleton } from "./_component/toolbar";
 
 interface Params {
     params: { documentId: string };
@@ -22,7 +23,9 @@ const DocumentPage = async ({ params: { documentId } }: Params) => {
     return (
         <div className="pb-40">
             <div>
-                <Toolbar document={document} />
+                <Suspense fallback={<ToolbarSkeleton />}>
+                    <Toolbar document={document} />
+                </Suspense>
             </div>
         </div>
     );
