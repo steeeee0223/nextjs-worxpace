@@ -47,15 +47,25 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
     };
     /** Edgestore */
     const { edgestore } = useEdgeStore();
+    const deleteFile = async (onComplete?: () => void) => {
+        try {
+            if (document.coverImage)
+                await edgestore.publicFiles.delete({
+                    url: document.coverImage,
+                });
+        } finally {
+            onComplete?.();
+        }
+    };
     /** Tree Actions */
     const { dispatch } = useTreeAction<Document>();
     /** Action - update */
     const { execute: update } = useAction(updateDocument, {
         onSuccess: (data) => {
-            toast.success(`Update successfully`);
+            toast.success(data.coverImage ? `Updated Cover` : `Deleted Cover`);
             dispatch({ type: "update", payload: data });
         },
-        onError: (e: string) => toast.error(e),
+        onError: (e) => toast.error(e),
     });
     const onUpdateTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
         setValue(e.currentTarget.value);
@@ -69,15 +79,15 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
     const onUploadCover = async (file: File) => {
         const res = await edgestore.publicFiles.upload({
             file,
+            options: { replaceTargetUrl: document.coverImage ?? undefined },
         });
+        console.log(`uploaded to edgestore: ${res.url}`);
         update({ id: document.id, coverImage: res.url });
     };
-    const onUnsplashCover = (url: string) => {
-        console.log(`updating unsplash cover to db: ${url}`);
-        update({ id: document.id, coverImage: url });
-        console.log(`updated d unsplash cover to db`);
-    };
-    const onRemoveCover = () => update({ id: document.id, coverImage: null });
+    const onUnsplashCover = async (url: string) =>
+        await deleteFile(() => update({ id: document.id, coverImage: url }));
+    const onRemoveCover = async () =>
+        await deleteFile(() => update({ id: document.id, coverImage: null }));
     /** Props */
     const buttonProps: ButtonProps = {
         className: "text-muted-foreground text-xs",
@@ -87,11 +97,12 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
 
     return (
         <>
-            {document.coverImage ? (
-                <Cover url={document.coverImage} onRemove={onRemoveCover} />
-            ) : (
-                <div className="h-[35vh]" />
-            )}
+            <Cover
+                url={document.coverImage}
+                onUploadChange={onUploadCover}
+                onUnsplash={onUnsplashCover}
+                onRemove={onRemoveCover}
+            />
             <div className="md:max-w-3xl lg:max-w-4xl mx-auto">
                 <div className="pl-[54px] group relative">
                     {!!document.icon && !preview && (

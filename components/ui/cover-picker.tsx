@@ -27,8 +27,8 @@ const tabContentStyle = cn(
 interface CoverPickerProps extends PropsWithChildren {
     asChild?: boolean;
     onUploadChange?: (file: File) => Promise<void>;
-    onUnsplash?: (url: string) => void;
-    onRemove?: () => void;
+    onUnsplash?: (url: string) => Promise<void>;
+    onRemove?: () => Promise<void>;
 }
 
 export const CoverPicker = ({
@@ -50,15 +50,14 @@ export const CoverPicker = ({
             setIsSubmitting(true);
             setFile(file);
             await onUploadChange?.(file);
-            onClose();
         }
+        onClose();
     };
     /** Unsplash */
-    const handleUnsplash = (formData: FormData) => {
+    const handleUnsplash = async (formData: FormData) => {
         const image = (formData.get("image") as string) ?? "";
         const [, , url] = image.split("|");
-        console.log(`handle unsplash url: ${url}`);
-        onUnsplash?.(url);
+        await onUnsplash?.(url);
         onClose();
     };
 

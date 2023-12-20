@@ -8,11 +8,11 @@ import { theme } from "@/constants/theme";
 import { cn } from "@/lib";
 
 interface CoverImageProps {
-    url?: string;
+    url: string | null;
     preview?: boolean;
     onUploadChange?: (file: File) => Promise<void>;
-    onUnsplash?: (url: string) => void;
-    onRemove?: () => void;
+    onUnsplash?: (url: string) => Promise<void>;
+    onRemove?: () => Promise<void>;
 }
 
 export const Cover = ({
