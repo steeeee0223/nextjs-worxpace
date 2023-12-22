@@ -100,7 +100,7 @@ export const Item = ({
             {documentIcon ? (
                 <div className="shrink-0 mr-2 text-[18px]">{documentIcon}</div>
             ) : (
-                <Icon className="shrink-0 h-[18px] mr-2 text-muted-foreground" />
+                <Icon className="shrink-0 h-[18px] w-[18px] mr-2 text-muted-foreground" />
             )}
             <span className="truncate">{label}</span>
             {shortcut && (
@@ -184,7 +184,9 @@ Item.Skeleton = function ItemSkeleton({ level }: { level?: number }) {
             }}
             className="flex gap-x-2 py-1.5 px-2"
         >
-            <Skeleton className={cn(theme.size.icon, "bg-primary/5")} />
+            <Skeleton
+                className={cn(theme.size.icon, "bg-primary/5 w-[18px]")}
+            />
             <Skeleton className="h-4 w-full bg-primary/5" />
         </div>
     );
