@@ -16,6 +16,8 @@
     "build:prisma": "prisma format && prisma db push && prisma generate"
   },
   "dependencies": {
+    "@blocknote/core": "^0.10.1",
+    "@blocknote/react": "^0.10.1",
     "@clerk/nextjs": "^4.27.1",
     "@edgestore/react": "^0.1.4",
     "@edgestore/server": "^0.1.4",

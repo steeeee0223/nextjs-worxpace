@@ -6,6 +6,7 @@ export const UpdateDocument = z.object({
     icon: z.string().nullable().optional(),
     coverImage: z.string().nullable().optional(),
     title: z.string().optional(),
+    content: z.string().nullable().optional(),
     /** Activity Log */
     log: z.boolean().default(false).optional(),
 });

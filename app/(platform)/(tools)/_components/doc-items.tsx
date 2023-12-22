@@ -19,6 +19,7 @@ const DocItems = () => {
         onSuccess: (data) => {
             toast.success(`Document Created: ${data.title}`);
             dispatch({ type: "add", payload: [data] });
+            router.push(`/documents/${data.id}`);
         },
         onError,
     });

@@ -28,3 +28,6 @@ export * from "./spinner";
 
 /** Edgestore */
 export * from "./single-image-dropzone";
+
+/** Block Note */
+export { default as BlockNoteEditor } from "./block-editor";

@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, KeyboardEvent, useRef, useState } from "react";
+import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from "react";
 import { ImageIcon, Smile, X } from "lucide-react";
 import { Document } from "@prisma/client";
 import TextareaAutosize from "react-textarea-autosize";
@@ -19,6 +19,7 @@ import {
 import { theme } from "@/constants/theme";
 import { useAction, useEdgeStore } from "@/hooks";
 import { cn } from "@/lib";
+import dynamic from "next/dynamic";
 
 interface ToolbarProps {
     document: Document;
@@ -65,10 +66,7 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
     const { dispatch } = useTreeAction<Document>();
     /** Action - update */
     const { execute: update } = useAction(updateDocument, {
-        onSuccess: (data) => {
-            toast.success(data.coverImage ? `Updated Cover` : `Deleted Cover`);
-            dispatch({ type: "update", payload: data });
-        },
+        onSuccess: (data) => dispatch({ type: "update", payload: data }),
         onError: (e) => toast.error(e),
     });
     const onUpdateTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -92,6 +90,20 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
         await deleteFile(() => update({ id: document.id, coverImage: url }));
     const onRemoveCover = async () =>
         await deleteFile(() => update({ id: document.id, coverImage: null }));
+    const onUpdateContent = (content: string) =>
+        update({ id: document.id, content });
+    const onUploadIntoNote = async (file: File) => {
+        const res = await edgestore.publicFiles.upload({ file });
+        return res.url;
+    };
+    /** Block Note Editor */
+    const BlockNoteEditor = useMemo(
+        () =>
+            dynamic(() => import("@/components/ui/block-editor"), {
+                ssr: false,
+            }),
+        []
+    );
     /** Props */
     const buttonProps: ButtonProps = {
         className: "text-muted-foreground text-xs",
@@ -177,6 +189,11 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
                         </div>
                     )}
                 </div>
+                <BlockNoteEditor
+                    initialContent={document.content}
+                    onChange={onUpdateContent}
+                    onUpload={onUploadIntoNote}
+                />
             </div>
         </>
     );

@@ -22,11 +22,9 @@ const DocumentPage = async ({ params: { documentId } }: Params) => {
 
     return (
         <div className="pb-40">
-            <div>
-                <Suspense fallback={<ToolbarSkeleton />}>
-                    <Toolbar document={document} />
-                </Suspense>
-            </div>
+            <Suspense fallback={<ToolbarSkeleton />}>
+                <Toolbar document={document} />
+            </Suspense>
         </div>
     );
 };
