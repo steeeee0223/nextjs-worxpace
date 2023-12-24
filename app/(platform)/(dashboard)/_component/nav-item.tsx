@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { Activity, CreditCard, Layout, Settings } from "lucide-react";
+import { Activity, Book, CreditCard, Layout, Settings } from "lucide-react";
 
 import {
     AccordionContent,
@@ -33,6 +33,11 @@ const getRoutes = ({ role, clientId: id }: _Client) => {
     const iconStyle = cn(theme.size.icon, "mr-2");
     const path = role === "USER" ? "personal" : "organization";
     return [
+        {
+            label: "Documents",
+            icon: <Book className={iconStyle} />,
+            href: `/documents/`,
+        },
         {
             label: "Boards",
             icon: <Layout className={iconStyle} />,

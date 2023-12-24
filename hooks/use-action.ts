@@ -1,5 +1,8 @@
-import { ActionHandler, FieldErrors } from "@/lib/create-safe-action";
+"use client";
+
 import { useCallback, useState } from "react";
+
+import { ActionHandler, FieldErrors } from "@/lib";
 
 interface UseActionOptions<TOutput> {
     onSuccess?: (data: TOutput) => void;

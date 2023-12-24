@@ -1,22 +1,28 @@
 "use server"
 
-import { auth } from "@clerk/nextjs";
-
-import { ActionHandler, createSafeAction } from "@/lib/create-safe-action";
+import { 
+    ActionHandler, 
+    UnauthorizedError, 
+    createSafeAction, 
+    db, 
+    fetchClient 
+} from "@/lib";
 import { {{pascalCase name}}, type {{pascalCase name}}Input } from "./schema"
 
 const handler: ActionHandler<{{pascalCase name}}Input, any> = async (data) => {
-    const { userId, orgId } = auth();
-    if (!userId || !orgId) return { error: "Unauthorized" };
+    let result;
+    const {} = data;
 
     try {
-
+        const { clientId } = fetchClient();
     } catch (error) {
+        if (error instanceof UnauthorizedError)
+            return { error: "Unauthorized" };
         console.log(`ERROR`, error);
         return { error: "Failed to {{lowerCase name}}." };
     }
 
-    return { data: {} };
+    return { data: result };
 };
 
 export const {{camelCase name}} = createSafeAction({{pascalCase name}}, handler);
