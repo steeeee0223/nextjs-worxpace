@@ -11,6 +11,7 @@ import { cn, fetchUrl } from "@/lib";
 import Title from "./title";
 import { Banner } from "./banner";
 import { Menu } from "./menu";
+import { Publish } from "./publish";
 
 interface NavbarProps {
     isCollapsed: boolean;
@@ -68,6 +69,7 @@ const Navbar = ({ isCollapsed, onResetWidth }: NavbarProps) => {
                 >
                     <Title initialData={document} />
                     <div className={theme.flex.gap2}>
+                        <Publish document={document} />
                         <Menu documentId={document.id} />
                     </div>
                 </div>

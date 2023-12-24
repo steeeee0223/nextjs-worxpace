@@ -8,7 +8,7 @@ import "@blocknote/core/style.css";
 interface EditorProps {
     initialContent?: string | null;
     editable?: boolean;
-    onChange: (value: string) => void;
+    onChange?: (value: string) => void;
     onUpload?: (file: File) => Promise<string>;
 }
 
@@ -24,7 +24,7 @@ const Editor = ({
         editable,
         initialContent: initialContent ? JSON.parse(initialContent) : undefined,
         onEditorContentChange: (editor) =>
-            onChange(JSON.stringify(editor.topLevelBlocks, null, 0)),
+            onChange?.(JSON.stringify(editor.topLevelBlocks, null, 0)),
         uploadFile: onUpload,
     });
 

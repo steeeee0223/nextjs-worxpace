@@ -12,8 +12,8 @@ import { toast } from "sonner";
 
 interface TreeProviderProps<T extends TreeItem> extends PropsWithChildren {
     fetchItems: () => Promise<ActionState<{}, T[]>>;
-    isItemActive: (id: string) => boolean;
-    onClickItem: (id: string) => void;
+    isItemActive?: (id: string) => boolean;
+    onClickItem?: (id: string) => void;
 }
 
 export function TreeProvider<T extends TreeItem>({
@@ -22,13 +22,6 @@ export function TreeProvider<T extends TreeItem>({
     isItemActive,
     onClickItem,
 }: TreeProviderProps<T>) {
-    // const fetchItems = async () => ({ data: [] as T[] });
-
-    // const $initialItems =
-    //     {
-    //           ids: data.map(({ id }) => id),
-    //           entities: Object.fromEntries(data.map((item) => [item.id, item])),
-    //       }
     const $initialItems = { ids: [], entities: {} };
     const [state, dispatch] = useReducer<TreeReducer<T>>(
         treeReducer,

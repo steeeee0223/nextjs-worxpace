@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, KeyboardEvent, useMemo, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { ImageIcon, Smile, X } from "lucide-react";
 import { Document } from "@prisma/client";
 import TextareaAutosize from "react-textarea-autosize";
@@ -19,7 +20,6 @@ import {
 import { theme } from "@/constants/theme";
 import { useAction, useEdgeStore } from "@/hooks";
 import { cn } from "@/lib";
-import dynamic from "next/dynamic";
 
 interface ToolbarProps {
     document: Document;
@@ -114,6 +114,7 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
     return (
         <>
             <Cover
+                preview={preview}
                 url={document.coverImage}
                 onUploadChange={onUploadCover}
                 onUnsplash={onUnsplashCover}
@@ -190,6 +191,7 @@ const Toolbar = ({ document, preview }: ToolbarProps) => {
                     )}
                 </div>
                 <BlockNoteEditor
+                    editable={!preview}
                     initialContent={document.content}
                     onChange={onUpdateContent}
                     onUpload={onUploadIntoNote}

@@ -50,8 +50,8 @@ export function TreeList<T extends TreeItem>({
                         label={title}
                         icon={FileIcon}
                         documentIcon={icon}
-                        onClick={() => onClickItem(id)}
-                        active={isItemActive(id)}
+                        onClick={() => onClickItem?.(id)}
+                        active={isItemActive?.(id)}
                         level={level}
                         expanded={expanded[id]}
                         onExpand={() => onExpand(id)}

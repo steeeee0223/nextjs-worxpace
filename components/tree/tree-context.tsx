@@ -8,8 +8,8 @@ export interface TreeContextInterface<T extends TreeItem> {
     treeItems: T[];
     archivedItems: T[];
     getChildren: (isArchived: boolean, parentId: string | null) => T[];
-    isItemActive: (id: string) => boolean;
-    onClickItem: (id: string) => void;
+    isItemActive?: (id: string) => boolean;
+    onClickItem?: (id: string) => void;
 }
 
 export const TreeContext = createContext<TreeContextInterface<any> | null>(
